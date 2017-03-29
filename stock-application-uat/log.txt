@@ -1,0 +1,643 @@
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for org.scott:stock-application-uat:jar:1.0.0-SNAPSHOT
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.jboss.arquillian.protocol:arquillian-protocol-servlet:jar -> version (?) vs ${version.arquillian} @ org.scott:stock-application-uat:[unknown-version], /home/scott/dev/docker/projects/stock-application-project/stock-application-uat/pom.xml, line 455, column 17
+[WARNING] 'build.plugins.plugin.version' for org.codehaus.groovy.maven:gmaven-plugin is missing. @ org.scott:stock-application-uat:[unknown-version], /home/scott/dev/docker/projects/stock-application-project/stock-application-uat/pom.xml, line 467, column 15
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Stock Application - UAT 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[WARNING] Could not transfer metadata org.scott:stock-application:1.0.0-SNAPSHOT/maven-metadata.xml from/to JBoss Repository (/): Cannot access / with type default using the available connector factories: BasicRepositoryConnectorFactory
+[WARNING] Failure to transfer org.scott:stock-application:1.0.0-SNAPSHOT/maven-metadata.xml from / was cached in the local repository, resolution will not be reattempted until the update interval of JBoss Repository has elapsed or updates are forced. Original error: Could not transfer metadata org.scott:stock-application:1.0.0-SNAPSHOT/maven-metadata.xml from/to JBoss Repository (/): Cannot access / with type default using the available connector factories: BasicRepositoryConnectorFactory
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ stock-application-uat ---
+[INFO] Deleting /home/scott/dev/docker/projects/stock-application-project/stock-application-uat/target
+[INFO] 
+[INFO] --- gmaven-plugin:1.0:execute (default) @ stock-application-uat ---
+-------------------------------------------------------
+Set host_address to 172.18.0.1
+-------------------------------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ stock-application-uat ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/scott/dev/docker/projects/stock-application-project/stock-application-uat/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ stock-application-uat ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ stock-application-uat ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 14 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ stock-application-uat ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 7 source files to /home/scott/dev/docker/projects/stock-application-project/stock-application-uat/target/test-classes
+[WARNING] /home/scott/dev/docker/projects/stock-application-project/stock-application-uat/src/test/java/com/acme/spring/hibernate/HibernateTestHelper.java: /home/scott/dev/docker/projects/stock-application-project/stock-application-uat/src/test/java/com/acme/spring/hibernate/HibernateTestHelper.java uses unchecked or unsafe operations.
+[WARNING] /home/scott/dev/docker/projects/stock-application-project/stock-application-uat/src/test/java/com/acme/spring/hibernate/HibernateTestHelper.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.19.1:test (default-test) @ stock-application-uat ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.acme.spring.hibernate.service.impl.UnifiedStockTestCase
+CubeDockerConfiguration: 
+  serverVersion = 1.13
+  serverUri = tcp://172.18.0.1:4243
+  tlsVerify = false
+  dockerServerIp = 172.18.0.1
+  definitionFormat = COMPOSE
+  autoStartContainers = web,olddb,batch,db
+  clean = false
+  removeVolumes = true
+  dockerContainers = containers:
+  web:
+    alwaysPull: false
+    await: {match: 'regexp:.+JBoss EAP.+ started in .+ms.+', sleepPollingTime: 10,
+      stdErr: false, stdOut: true, strategy: log, timeout: 60}
+    dependsOn: !!set {olddb: null, db: null}
+    env: !!set {'DOCKER_SERVER_URI=tcp://172.18.0.1:4243': null}
+    hostName: web
+    image: eap-test
+    killContainer: false
+    manual: false
+    networkMode: stock-application-uat_default
+    networks: [stock-application-uat_default]
+    readonlyRootfs: false
+    removeVolumes: true
+  batch:
+    alwaysPull: false
+    await: {match: batch container up, sleepPollingTime: 10, stdErr: false, stdOut: true,
+      strategy: log, timeout: 60}
+    buildImage: {dockerfileLocation: ../stock-application-batch, noCache: true, remove: true}
+    killContainer: false
+    manual: false
+    networkMode: stock-application-uat_default
+    networks: [stock-application-uat_default]
+    readonlyRootfs: false
+    removeVolumes: true
+  olddb:
+    alwaysPull: false
+    await: {match: DB2 Ready, sleepPollingTime: 10, stdErr: false, stdOut: true, strategy: log,
+      timeout: 60}
+    buildImage: {dockerfileLocation: src/test/resources/docker/db2_uat, noCache: true,
+      remove: true}
+    hostName: olddb
+    killContainer: false
+    manual: false
+    networkMode: stock-application-uat_default
+    networks: [stock-application-uat_default]
+    readonlyRootfs: false
+    removeVolumes: true
+  db:
+    alwaysPull: false
+    buildImage: {dockerfileLocation: src/test/resources/docker/postgres_uat, noCache: true,
+      remove: true}
+    hostName: db
+    killContainer: false
+    manual: false
+    networkMode: stock-application-uat_default
+    networks: [stock-application-uat_default]
+    readonlyRootfs: false
+    removeVolumes: true
+networks:
+  stock-application-uat_default: {driver: bridge}
+
+
+2017-03-29 16:34:19 DEBUG AbstrDockerCmd:34 - Cmd: stock-application-uat_default,bridge,<null>,{},<null>,<null>,<null>,com.github.dockerjava.jaxrs.CreateNetworkCmdExec@2a8d39c4
+2017-03-29 16:34:19 DEBUG RequestAddCookies:122 - CookieSpec selected: default
+2017-03-29 16:34:19 DEBUG RequestAuthCache:76 - Auth cache not set in the context
+2017-03-29 16:34:19 DEBUG JerseyDockerCmdExecFactory$1:249 - Connection request: [route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+2017-03-29 16:34:19 DEBUG JerseyDockerCmdExecFactory$1:282 - Connection leased: [id: 0][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 1 of 2; total allocated: 1 of 20]
+2017-03-29 16:34:19 DEBUG MainClientExec:234 - Opening connection {}->http://172.18.0.1:4243
+2017-03-29 16:34:19 DEBUG DefaultHttpClientConnectionOperator:131 - Connecting to /172.18.0.1:4243
+2017-03-29 16:34:19 DEBUG DefaultHttpClientConnectionOperator:138 - Connection established 172.18.0.1:44046<->172.18.0.1:4243
+2017-03-29 16:34:19 DEBUG MainClientExec:255 - Executing request POST /v1.13/networks/create HTTP/1.1
+2017-03-29 16:34:19 DEBUG MainClientExec:260 - Target auth state: UNCHALLENGED
+2017-03-29 16:34:19 DEBUG MainClientExec:266 - Proxy auth state: UNCHALLENGED
+2017-03-29 16:34:19 DEBUG headers:124 - http-outgoing-0 >> POST /v1.13/networks/create HTTP/1.1
+2017-03-29 16:34:19 DEBUG headers:127 - http-outgoing-0 >> Accept: application/json
+2017-03-29 16:34:19 DEBUG headers:127 - http-outgoing-0 >> Content-Type: application/json
+2017-03-29 16:34:19 DEBUG headers:127 - http-outgoing-0 >> User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)
+2017-03-29 16:34:19 DEBUG headers:127 - http-outgoing-0 >> Transfer-Encoding: chunked
+2017-03-29 16:34:19 DEBUG headers:127 - http-outgoing-0 >> Host: 172.18.0.1:4243
+2017-03-29 16:34:19 DEBUG headers:127 - http-outgoing-0 >> Connection: Keep-Alive
+2017-03-29 16:34:19 DEBUG headers:127 - http-outgoing-0 >> Accept-Encoding: gzip,deflate
+2017-03-29 16:34:19 DEBUG JerseyDockerCmdExecFactory:159 - 1 * Sending client request on thread main
+1 > POST http://172.18.0.1:4243/v1.13/networks/create
+1 > Accept: application/json
+1 > Content-Type: application/json
+{"enableIPv6":null,"Name":"stock-application-uat_default","Driver":"bridge","IPAM":null,"Options":{},"CheckDuplicate":null,"Internal":null,"EnableIPv6":null}
+
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "POST /v1.13/networks/create HTTP/1.1[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "Accept: application/json[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "Content-Type: application/json[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "Transfer-Encoding: chunked[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "Host: 172.18.0.1:4243[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "Connection: Keep-Alive[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "Accept-Encoding: gzip,deflate[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "9d[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "{"enableIPv6":null,"Name":"stock-application-uat_default","Driver":"bridge","IPAM":null,"Options":{},"CheckDuplicate":null,"Internal":null,"EnableIPv6":null}[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "0[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 >> "[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 << "HTTP/1.1 201 Created[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 << "Api-Version: 1.26[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 << "Content-Type: application/json[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 << "Docker-Experimental: false[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 << "Server: Docker/1.13.1 (linux)[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 << "Date: Wed, 29 Mar 2017 14:34:19 GMT[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 << "Content-Length: 221[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 << "[\r][\n]"
+2017-03-29 16:34:19 DEBUG wire:72 - http-outgoing-0 << "{"Id":"a5bc6944354f44759e2fc3218388a8c2dbbb7a930be5e96e288581802e4b2608","Warning":"Network with name stock-application-uat_default (id : b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf) already exists"}[\n]"
+2017-03-29 16:34:19 DEBUG headers:113 - http-outgoing-0 << HTTP/1.1 201 Created
+2017-03-29 16:34:19 DEBUG headers:116 - http-outgoing-0 << Api-Version: 1.26
+2017-03-29 16:34:19 DEBUG headers:116 - http-outgoing-0 << Content-Type: application/json
+2017-03-29 16:34:19 DEBUG headers:116 - http-outgoing-0 << Docker-Experimental: false
+2017-03-29 16:34:19 DEBUG headers:116 - http-outgoing-0 << Server: Docker/1.13.1 (linux)
+2017-03-29 16:34:19 DEBUG headers:116 - http-outgoing-0 << Date: Wed, 29 Mar 2017 14:34:19 GMT
+2017-03-29 16:34:19 DEBUG headers:116 - http-outgoing-0 << Content-Length: 221
+2017-03-29 16:34:19 DEBUG MainClientExec:284 - Connection can be kept alive indefinitely
+2017-03-29 16:34:19 DEBUG JerseyDockerCmdExecFactory:159 - 2 * Client response received on thread main
+2 < 201
+2 < Api-Version: 1.26
+2 < Content-Length: 221
+2 < Content-Type: application/json
+2 < Date: Wed, 29 Mar 2017 14:34:19 GMT
+2 < Docker-Experimental: false
+2 < Server: Docker/1.13.1 (linux)
+{"Id":"a5bc6944354f44759e2fc3218388a8c2dbbb7a930be5e96e288581802e4b2608","Warning":"Network with name stock-application-uat_default (id : b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf) already exists"}
+
+
+2017-03-29 16:34:19 DEBUG DefaultManagedHttpClientConnection:87 - http-outgoing-0: Shutdown connection
+2017-03-29 16:34:19 DEBUG MainClientExec:128 - Connection discarded
+2017-03-29 16:34:19 DEBUG DefaultManagedHttpClientConnection:79 - http-outgoing-0: Close connection
+2017-03-29 16:34:19 DEBUG JerseyDockerCmdExecFactory$1:320 - Connection released: [id: 0][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+2017-03-29 16:34:20 DEBUG AbstrDockerCmd:34 - Cmd: -1,<null>,false,<null>,<null>,com.github.dockerjava.core.util.FiltersBuilder@0,com.github.dockerjava.jaxrs.ListContainersCmdExec@61b351be
+2017-03-29 16:34:20 DEBUG AbstrDockerCmd:34 - Cmd: -1,<null>,false,<null>,<null>,com.github.dockerjava.core.util.FiltersBuilder@0,com.github.dockerjava.jaxrs.ListContainersCmdExec@c758c4a
+2017-03-29 16:34:20 DEBUG AbstrDockerCmd:34 - Cmd: -1,<null>,false,<null>,<null>,com.github.dockerjava.core.util.FiltersBuilder@0,com.github.dockerjava.jaxrs.ListContainersCmdExec@1f07a953
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory:159 - 3 * Sending client request on thread pool-1-thread-3
+3 > GET http://172.18.0.1:4243/v1.13/containers/json
+3 > Accept: application/json
+
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory:159 - 4 * Sending client request on thread pool-1-thread-1
+4 > GET http://172.18.0.1:4243/v1.13/containers/json
+4 > Accept: application/json
+
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory:159 - 5 * Sending client request on thread pool-1-thread-2
+5 > GET http://172.18.0.1:4243/v1.13/containers/json
+5 > Accept: application/json
+
+2017-03-29 16:34:20 DEBUG RequestAddCookies:122 - CookieSpec selected: default
+2017-03-29 16:34:20 DEBUG RequestAuthCache:76 - Auth cache not set in the context
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory$1:249 - Connection request: [route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+2017-03-29 16:34:20 DEBUG RequestAddCookies:122 - CookieSpec selected: default
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory$1:282 - Connection leased: [id: 1][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 1 of 2; total allocated: 1 of 20]
+2017-03-29 16:34:20 DEBUG MainClientExec:234 - Opening connection {}->http://172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG DefaultHttpClientConnectionOperator:131 - Connecting to /172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG DefaultHttpClientConnectionOperator:138 - Connection established 172.18.0.1:44054<->172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG MainClientExec:255 - Executing request GET /v1.13/containers/json HTTP/1.1
+2017-03-29 16:34:20 DEBUG MainClientExec:260 - Target auth state: UNCHALLENGED
+2017-03-29 16:34:20 DEBUG MainClientExec:266 - Proxy auth state: UNCHALLENGED
+2017-03-29 16:34:20 DEBUG headers:124 - http-outgoing-1 >> GET /v1.13/containers/json HTTP/1.1
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-1 >> Accept: application/json
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-1 >> User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-1 >> Host: 172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-1 >> Connection: Keep-Alive
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-1 >> Accept-Encoding: gzip,deflate
+2017-03-29 16:34:20 DEBUG RequestAuthCache:76 - Auth cache not set in the context
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory$1:249 - Connection request: [route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 1 of 2; total allocated: 1 of 20]
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory$1:282 - Connection leased: [id: 2][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 2 of 2; total allocated: 2 of 20]
+2017-03-29 16:34:20 DEBUG MainClientExec:234 - Opening connection {}->http://172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG DefaultHttpClientConnectionOperator:131 - Connecting to /172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG RequestAddCookies:122 - CookieSpec selected: default
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 >> "GET /v1.13/containers/json HTTP/1.1[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 >> "Accept: application/json[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 >> "User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 >> "Host: 172.18.0.1:4243[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 >> "Connection: Keep-Alive[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 >> "Accept-Encoding: gzip,deflate[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 >> "[\r][\n]"
+2017-03-29 16:34:20 DEBUG DefaultHttpClientConnectionOperator:138 - Connection established 172.18.0.1:44056<->172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG RequestAuthCache:76 - Auth cache not set in the context
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory$1:249 - Connection request: [route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 2 of 2; total allocated: 2 of 20]
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "HTTP/1.1 200 OK[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "Api-Version: 1.26[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "Content-Type: application/json[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "Docker-Experimental: false[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "Server: Docker/1.13.1 (linux)[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "Date: Wed, 29 Mar 2017 14:34:20 GMT[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "Transfer-Encoding: chunked[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "fe0[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "[{"Id":"8bfc218d96dc10542e1deb8d23cf605b630a56baefaec35483fe806c9977bf07","Names":["/web"],"Image":"eap-test","ImageID":"sha256:fde1403a2dac99640c2bbba009edec9915283a31bdaa06aab5720db0a9f5d4bf","Command":"/bin/sh -c '$JBOSS_HOME/bin/standalone.sh -b 0.0.0.0'","Created":1490797933,"Ports":[{"PrivatePort":9990,"Type":"tcp"},{"PrivatePort":8787,"Type":"tcp"},{"PrivatePort":8080,"Type":"tcp"},{"PrivatePort":9999,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"21a3c42efb3efc5ea93b2879b7c32e6043047b70d22ce3a7df99a940d276a8d0","Gateway":"172.18.0.1","IPAddress":"172.18.0.5","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:05"}}},"Mounts":[]},{"Id":"f78276fb6784017f5d01b5d0b31d067fc26e7010c0564c2fc1abe1047efa501e","Names":["/batch"],"Image":"fc03e798d0e5","ImageID":"sha256:fc03e798d0e56919ac95f505890f33a7390ff53d66878d39277c8bb3c03f3fdf","Command":"/bin/sh -c 'echo \"batch container up\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":8000,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"11253a77fdd08c9cbdaf534c549a24f5cd0d8563c9158d22e2c4e220b2ea30f6","Gateway":"172.18.0.1","IPAddress":"172.18.0.4","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:04"}}},"Mounts":[]},{"Id":"a7d07d1d112e674b5858ac2d4d114f5fe13b05515ad1c21debdd5aba6134707c","Names":["/olddb"],"Image":"7ea0a991bfcb","ImageID":"sha256:7ea0a991bfcb35f81db324a779379c7c39b369ad0a0798433cbd262df361f69b","Command":"/bin/sh -c '. /home/db2inst1/sqllib/db2profile &&  db2start && /home/db2inst1/script-executor/run.sh &&  echo \"DB2 Ready\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":50000,"Type":"tcp"},{"PrivatePort":22,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"7edb87cfc3800636a9f561cd3cf0576979fdaa88b356bff64bdf0aae1f779e65","Gateway":"172.18.0.1","IPAddress":"172.18.0.3","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:03"}}},"Mounts":[]},{"Id":"0bda99b91a30277bc7d04e631f74b81c70c9bac22dcc2874c581d539d8280773","Names":["/db"],"Image":"655d8c3c9f54","ImageID":"sha256:655d8c3c9f540c1dec586b4f200d0c3aa7eb442dcd06b7f7477b937498c55cdd","Command":"docker-entrypoint.sh postgres","Created":1490797916,"Ports":[{"PrivatePort":5432,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"d3834ef01037a6bdf0dba4384b069ca66b42dfd510b788d64612dc2acf70ee7a","Gateway":"172.18.0.1","IPAddress":"172.18.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:02"}}},"Mounts":[{"Type":"volume","Name":"3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e","Source":"/var/lib/docker/volumes/3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e/_data","Destination":"/var/lib/postgresql/data","Driver":"local","Mode":"","RW":true,"Propagation":""}]}][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "0[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-1 << "[\r][\n]"
+2017-03-29 16:34:20 DEBUG headers:113 - http-outgoing-1 << HTTP/1.1 200 OK
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-1 << Api-Version: 1.26
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-1 << Content-Type: application/json
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-1 << Docker-Experimental: false
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-1 << Server: Docker/1.13.1 (linux)
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-1 << Date: Wed, 29 Mar 2017 14:34:20 GMT
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-1 << Transfer-Encoding: chunked
+2017-03-29 16:34:20 DEBUG MainClientExec:255 - Executing request GET /v1.13/containers/json HTTP/1.1
+2017-03-29 16:34:20 DEBUG MainClientExec:260 - Target auth state: UNCHALLENGED
+2017-03-29 16:34:20 DEBUG MainClientExec:266 - Proxy auth state: UNCHALLENGED
+2017-03-29 16:34:20 DEBUG headers:124 - http-outgoing-2 >> GET /v1.13/containers/json HTTP/1.1
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-2 >> Accept: application/json
+2017-03-29 16:34:20 DEBUG MainClientExec:284 - Connection can be kept alive indefinitely
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory:159 - 6 * Client response received on thread pool-1-thread-1
+6 < 200
+6 < Api-Version: 1.26
+6 < Content-Length: -1
+6 < Content-Type: application/json
+6 < Date: Wed, 29 Mar 2017 14:34:20 GMT
+6 < Docker-Experimental: false
+6 < Server: Docker/1.13.1 (linux)
+6 < Transfer-Encoding: chunked
+[{"Id":"8bfc218d96dc10542e1deb8d23cf605b630a56baefaec35483fe806c9977bf07","Names":["/web"],"Image":"eap-test","ImageID":"sha256:fde1403a2dac99640c2bbba009edec9915283a31bdaa06aab5720db0a9f5d4bf","Command":"/bin/sh -c '$JBOSS_HOME/bin/standalone.sh -b 0.0.0.0'","Created":1490797933,"Ports":[{"PrivatePort":9990,"Type":"tcp"},{"PrivatePort":8787,"Type":"tcp"},{"PrivatePort":8080,"Type":"tcp"},{"PrivatePort":9999,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"21a3c42efb3efc5ea93b2879b7c32e6043047b70d22ce3a7df99a940d276a8d0","Gateway":"172.18.0.1","IPAddress":"172.18.0.5","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:05"}}},"Mounts":[]},{"Id":"f78276fb6784017f5d01b5d0b31d067fc26e7010c0564c2fc1abe1047efa501e","Names":["/batch"],"Image":"fc03e798d0e5","ImageID":"sha256:fc03e798d0e56919ac95f505890f33a7390ff53d66878d39277c8bb3c03f3fdf","Command":"/bin/sh -c 'echo \"batch container up\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":8000,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"11253a77fdd08c9cbdaf534c549a24f5cd0d8563c9158d22e2c4e220b2ea30f6","Gateway":"172.18.0.1","IPAddress":"172.18.0.4","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:04"}}},"Mounts":[]},{"Id":"a7d07d1d112e674b5858ac2d4d114f5fe13b05515ad1c21debdd5aba6134707c","Names":["/olddb"],"Image":"7ea0a991bfcb","ImageID":"sha256:7ea0a991bfcb35f81db324a779379c7c39b369ad0a0798433cbd262df361f69b","Command":"/bin/sh -c '. /home/db2inst1/sqllib/db2profile &&  db2start && /home/db2inst1/script-executor/run.sh &&  echo \"DB2 Ready\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":50000,"Type":"tcp"},{"PrivatePort":22,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"7edb87cfc3800636a9f561cd3cf0576979fdaa88b356bff64bdf0aae1f779e65","Gateway":"172.18.0.1","IPAddress":"172.18.0.3","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:03"}}},"Mounts":[]},{"Id":"0bda99b91a30277bc7d04e631f74b81c70c9bac22dcc2874c581d539d8280773","Names":["/db"],"Image":"655d8c3c9f54","ImageID":"sha256:655d8c3c9f540c1dec586b4f200d0c3aa7eb442dcd06b7f7477b937498c55cdd","Command":"docker-entrypoint.sh postgres","Created":1490797916,"Ports":[{"PrivatePort":5432,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"d3834ef01037a6bdf0dba4384b069ca66b42dfd510b788d64612dc2acf70ee7a","Gateway":"172.18.0.1","IPAddress":"172.18.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:02"}}},"Mounts":[{"Type":"volume","Name":"3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e","Source":"/var/lib/docker/volumes/3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e/_data","Destination":"/var/lib/postgresql/data","Driver":"local","Mode":"","RW":true,"Propagation":""}]}]
+
+
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-2 >> User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-2 >> Host: 172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-2 >> Connection: Keep-Alive
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-2 >> Accept-Encoding: gzip,deflate
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 >> "GET /v1.13/containers/json HTTP/1.1[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 >> "Accept: application/json[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 >> "User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 >> "Host: 172.18.0.1:4243[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 >> "Connection: Keep-Alive[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 >> "Accept-Encoding: gzip,deflate[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 >> "[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "HTTP/1.1 200 OK[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "Api-Version: 1.26[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "Content-Type: application/json[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "Docker-Experimental: false[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "Server: Docker/1.13.1 (linux)[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "Date: Wed, 29 Mar 2017 14:34:20 GMT[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "Transfer-Encoding: chunked[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "fe0[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "[{"Id":"8bfc218d96dc10542e1deb8d23cf605b630a56baefaec35483fe806c9977bf07","Names":["/web"],"Image":"eap-test","ImageID":"sha256:fde1403a2dac99640c2bbba009edec9915283a31bdaa06aab5720db0a9f5d4bf","Command":"/bin/sh -c '$JBOSS_HOME/bin/standalone.sh -b 0.0.0.0'","Created":1490797933,"Ports":[{"PrivatePort":9999,"Type":"tcp"},{"PrivatePort":9990,"Type":"tcp"},{"PrivatePort":8787,"Type":"tcp"},{"PrivatePort":8080,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"21a3c42efb3efc5ea93b2879b7c32e6043047b70d22ce3a7df99a940d276a8d0","Gateway":"172.18.0.1","IPAddress":"172.18.0.5","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:05"}}},"Mounts":[]},{"Id":"f78276fb6784017f5d01b5d0b31d067fc26e7010c0564c2fc1abe1047efa501e","Names":["/batch"],"Image":"fc03e798d0e5","ImageID":"sha256:fc03e798d0e56919ac95f505890f33a7390ff53d66878d39277c8bb3c03f3fdf","Command":"/bin/sh -c 'echo \"batch container up\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":8000,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"11253a77fdd08c9cbdaf534c549a24f5cd0d8563c9158d22e2c4e220b2ea30f6","Gateway":"172.18.0.1","IPAddress":"172.18.0.4","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:04"}}},"Mounts":[]},{"Id":"a7d07d1d112e674b5858ac2d4d114f5fe13b05515ad1c21debdd5aba6134707c","Names":["/olddb"],"Image":"7ea0a991bfcb","ImageID":"sha256:7ea0a991bfcb35f81db324a779379c7c39b369ad0a0798433cbd262df361f69b","Command":"/bin/sh -c '. /home/db2inst1/sqllib/db2profile &&  db2start && /home/db2inst1/script-executor/run.sh &&  echo \"DB2 Ready\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":50000,"Type":"tcp"},{"PrivatePort":22,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"7edb87cfc3800636a9f561cd3cf0576979fdaa88b356bff64bdf0aae1f779e65","Gateway":"172.18.0.1","IPAddress":"172.18.0.3","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:03"}}},"Mounts":[]},{"Id":"0bda99b91a30277bc7d04e631f74b81c70c9bac22dcc2874c581d539d8280773","Names":["/db"],"Image":"655d8c3c9f54","ImageID":"sha256:655d8c3c9f540c1dec586b4f200d0c3aa7eb442dcd06b7f7477b937498c55cdd","Command":"docker-entrypoint.sh postgres","Created":1490797916,"Ports":[{"PrivatePort":5432,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"d3834ef01037a6bdf0dba4384b069ca66b42dfd510b788d64612dc2acf70ee7a","Gateway":"172.18.0.1","IPAddress":"172.18.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:02"}}},"Mounts":[{"Type":"volume","Name":"3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e","Source":"/var/lib/docker/volumes/3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e/_data","Destination":"/var/lib/postgresql/data","Driver":"local","Mode":"","RW":true,"Propagation":""}]}][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "0[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-2 << "[\r][\n]"
+2017-03-29 16:34:20 DEBUG headers:113 - http-outgoing-2 << HTTP/1.1 200 OK
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-2 << Api-Version: 1.26
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-2 << Content-Type: application/json
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-2 << Docker-Experimental: false
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-2 << Server: Docker/1.13.1 (linux)
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-2 << Date: Wed, 29 Mar 2017 14:34:20 GMT
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-2 << Transfer-Encoding: chunked
+2017-03-29 16:34:20 DEBUG MainClientExec:284 - Connection can be kept alive indefinitely
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory:159 - 7 * Client response received on thread pool-1-thread-3
+7 < 200
+7 < Api-Version: 1.26
+7 < Content-Length: -1
+7 < Content-Type: application/json
+7 < Date: Wed, 29 Mar 2017 14:34:20 GMT
+7 < Docker-Experimental: false
+7 < Server: Docker/1.13.1 (linux)
+7 < Transfer-Encoding: chunked
+[{"Id":"8bfc218d96dc10542e1deb8d23cf605b630a56baefaec35483fe806c9977bf07","Names":["/web"],"Image":"eap-test","ImageID":"sha256:fde1403a2dac99640c2bbba009edec9915283a31bdaa06aab5720db0a9f5d4bf","Command":"/bin/sh -c '$JBOSS_HOME/bin/standalone.sh -b 0.0.0.0'","Created":1490797933,"Ports":[{"PrivatePort":9999,"Type":"tcp"},{"PrivatePort":9990,"Type":"tcp"},{"PrivatePort":8787,"Type":"tcp"},{"PrivatePort":8080,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"21a3c42efb3efc5ea93b2879b7c32e6043047b70d22ce3a7df99a940d276a8d0","Gateway":"172.18.0.1","IPAddress":"172.18.0.5","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:05"}}},"Mounts":[]},{"Id":"f78276fb6784017f5d01b5d0b31d067fc26e7010c0564c2fc1abe1047efa501e","Names":["/batch"],"Image":"fc03e798d0e5","ImageID":"sha256:fc03e798d0e56919ac95f505890f33a7390ff53d66878d39277c8bb3c03f3fdf","Command":"/bin/sh -c 'echo \"batch container up\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":8000,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"11253a77fdd08c9cbdaf534c549a24f5cd0d8563c9158d22e2c4e220b2ea30f6","Gateway":"172.18.0.1","IPAddress":"172.18.0.4","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:04"}}},"Mounts":[]},{"Id":"a7d07d1d112e674b5858ac2d4d114f5fe13b05515ad1c21debdd5aba6134707c","Names":["/olddb"],"Image":"7ea0a991bfcb","ImageID":"sha256:7ea0a991bfcb35f81db324a779379c7c39b369ad0a0798433cbd262df361f69b","Command":"/bin/sh -c '. /home/db2inst1/sqllib/db2profile &&  db2start && /home/db2inst1/script-executor/run.sh &&  echo \"DB2 Ready\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":50000,"Type":"tcp"},{"PrivatePort":22,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"7edb87cfc3800636a9f561cd3cf0576979fdaa88b356bff64bdf0aae1f779e65","Gateway":"172.18.0.1","IPAddress":"172.18.0.3","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:03"}}},"Mounts":[]},{"Id":"0bda99b91a30277bc7d04e631f74b81c70c9bac22dcc2874c581d539d8280773","Names":["/db"],"Image":"655d8c3c9f54","ImageID":"sha256:655d8c3c9f540c1dec586b4f200d0c3aa7eb442dcd06b7f7477b937498c55cdd","Command":"docker-entrypoint.sh postgres","Created":1490797916,"Ports":[{"PrivatePort":5432,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"d3834ef01037a6bdf0dba4384b069ca66b42dfd510b788d64612dc2acf70ee7a","Gateway":"172.18.0.1","IPAddress":"172.18.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:02"}}},"Mounts":[{"Type":"volume","Name":"3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e","Source":"/var/lib/docker/volumes/3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e/_data","Destination":"/var/lib/postgresql/data","Driver":"local","Mode":"","RW":true,"Propagation":""}]}]
+
+
+2017-03-29 16:34:20 DEBUG DefaultManagedHttpClientConnection:87 - http-outgoing-2: Shutdown connection
+2017-03-29 16:34:20 DEBUG MainClientExec:128 - Connection discarded
+2017-03-29 16:34:20 DEBUG DefaultManagedHttpClientConnection:79 - http-outgoing-2: Close connection
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory$1:320 - Connection released: [id: 2][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 1 of 2; total allocated: 1 of 20]
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory$1:282 - Connection leased: [id: 3][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 2 of 2; total allocated: 2 of 20]
+2017-03-29 16:34:20 DEBUG MainClientExec:234 - Opening connection {}->http://172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG DefaultHttpClientConnectionOperator:131 - Connecting to /172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG DefaultHttpClientConnectionOperator:138 - Connection established 172.18.0.1:44058<->172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG MainClientExec:255 - Executing request GET /v1.13/containers/json HTTP/1.1
+2017-03-29 16:34:20 DEBUG MainClientExec:260 - Target auth state: UNCHALLENGED
+2017-03-29 16:34:20 DEBUG MainClientExec:266 - Proxy auth state: UNCHALLENGED
+2017-03-29 16:34:20 DEBUG headers:124 - http-outgoing-3 >> GET /v1.13/containers/json HTTP/1.1
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-3 >> Accept: application/json
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-3 >> User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-3 >> Host: 172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-3 >> Connection: Keep-Alive
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-3 >> Accept-Encoding: gzip,deflate
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 >> "GET /v1.13/containers/json HTTP/1.1[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 >> "Accept: application/json[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 >> "User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 >> "Host: 172.18.0.1:4243[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 >> "Connection: Keep-Alive[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 >> "Accept-Encoding: gzip,deflate[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 >> "[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "HTTP/1.1 200 OK[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "Api-Version: 1.26[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "Content-Type: application/json[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "Docker-Experimental: false[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "Server: Docker/1.13.1 (linux)[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "Date: Wed, 29 Mar 2017 14:34:20 GMT[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "Transfer-Encoding: chunked[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "fe0[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "[{"Id":"8bfc218d96dc10542e1deb8d23cf605b630a56baefaec35483fe806c9977bf07","Names":["/web"],"Image":"eap-test","ImageID":"sha256:fde1403a2dac99640c2bbba009edec9915283a31bdaa06aab5720db0a9f5d4bf","Command":"/bin/sh -c '$JBOSS_HOME/bin/standalone.sh -b 0.0.0.0'","Created":1490797933,"Ports":[{"PrivatePort":9999,"Type":"tcp"},{"PrivatePort":9990,"Type":"tcp"},{"PrivatePort":8787,"Type":"tcp"},{"PrivatePort":8080,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"21a3c42efb3efc5ea93b2879b7c32e6043047b70d22ce3a7df99a940d276a8d0","Gateway":"172.18.0.1","IPAddress":"172.18.0.5","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:05"}}},"Mounts":[]},{"Id":"f78276fb6784017f5d01b5d0b31d067fc26e7010c0564c2fc1abe1047efa501e","Names":["/batch"],"Image":"fc03e798d0e5","ImageID":"sha256:fc03e798d0e56919ac95f505890f33a7390ff53d66878d39277c8bb3c03f3fdf","Command":"/bin/sh -c 'echo \"batch container up\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":8000,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"11253a77fdd08c9cbdaf534c549a24f5cd0d8563c9158d22e2c4e220b2ea30f6","Gateway":"172.18.0.1","IPAddress":"172.18.0.4","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:04"}}},"Mounts":[]},{"Id":"a7d07d1d112e674b5858ac2d4d114f5fe13b05515ad1c21debdd5aba6134707c","Names":["/olddb"],"Image":"7ea0a991bfcb","ImageID":"sha256:7ea0a991bfcb35f81db324a779379c7c39b369ad0a0798433cbd262df361f69b","Command":"/bin/sh -c '. /home/db2inst1/sqllib/db2profile &&  db2start && /home/db2inst1/script-executor/run.sh &&  echo \"DB2 Ready\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":50000,"Type":"tcp"},{"PrivatePort":22,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"7edb87cfc3800636a9f561cd3cf0576979fdaa88b356bff64bdf0aae1f779e65","Gateway":"172.18.0.1","IPAddress":"172.18.0.3","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:03"}}},"Mounts":[]},{"Id":"0bda99b91a30277bc7d04e631f74b81c70c9bac22dcc2874c581d539d8280773","Names":["/db"],"Image":"655d8c3c9f54","ImageID":"sha256:655d8c3c9f540c1dec586b4f200d0c3aa7eb442dcd06b7f7477b937498c55cdd","Command":"docker-entrypoint.sh postgres","Created":1490797916,"Ports":[{"PrivatePort":5432,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"d3834ef01037a6bdf0dba4384b069ca66b42dfd510b788d64612dc2acf70ee7a","Gateway":"172.18.0.1","IPAddress":"172.18.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:02"}}},"Mounts":[{"Type":"volume","Name":"3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e","Source":"/var/lib/docker/volumes/3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e/_data","Destination":"/var/lib/postgresql/data","Driver":"local","Mode":"","RW":true,"Propagation":""}]}][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "0[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-3 << "[\r][\n]"
+2017-03-29 16:34:20 DEBUG headers:113 - http-outgoing-3 << HTTP/1.1 200 OK
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-3 << Api-Version: 1.26
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-3 << Content-Type: application/json
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-3 << Docker-Experimental: false
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-3 << Server: Docker/1.13.1 (linux)
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-3 << Date: Wed, 29 Mar 2017 14:34:20 GMT
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-3 << Transfer-Encoding: chunked
+2017-03-29 16:34:20 DEBUG MainClientExec:284 - Connection can be kept alive indefinitely
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory:159 - 8 * Client response received on thread pool-1-thread-2
+8 < 200
+8 < Api-Version: 1.26
+8 < Content-Length: -1
+8 < Content-Type: application/json
+8 < Date: Wed, 29 Mar 2017 14:34:20 GMT
+8 < Docker-Experimental: false
+8 < Server: Docker/1.13.1 (linux)
+8 < Transfer-Encoding: chunked
+[{"Id":"8bfc218d96dc10542e1deb8d23cf605b630a56baefaec35483fe806c9977bf07","Names":["/web"],"Image":"eap-test","ImageID":"sha256:fde1403a2dac99640c2bbba009edec9915283a31bdaa06aab5720db0a9f5d4bf","Command":"/bin/sh -c '$JBOSS_HOME/bin/standalone.sh -b 0.0.0.0'","Created":1490797933,"Ports":[{"PrivatePort":9999,"Type":"tcp"},{"PrivatePort":9990,"Type":"tcp"},{"PrivatePort":8787,"Type":"tcp"},{"PrivatePort":8080,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"21a3c42efb3efc5ea93b2879b7c32e6043047b70d22ce3a7df99a940d276a8d0","Gateway":"172.18.0.1","IPAddress":"172.18.0.5","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:05"}}},"Mounts":[]},{"Id":"f78276fb6784017f5d01b5d0b31d067fc26e7010c0564c2fc1abe1047efa501e","Names":["/batch"],"Image":"fc03e798d0e5","ImageID":"sha256:fc03e798d0e56919ac95f505890f33a7390ff53d66878d39277c8bb3c03f3fdf","Command":"/bin/sh -c 'echo \"batch container up\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":8000,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"11253a77fdd08c9cbdaf534c549a24f5cd0d8563c9158d22e2c4e220b2ea30f6","Gateway":"172.18.0.1","IPAddress":"172.18.0.4","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:04"}}},"Mounts":[]},{"Id":"a7d07d1d112e674b5858ac2d4d114f5fe13b05515ad1c21debdd5aba6134707c","Names":["/olddb"],"Image":"7ea0a991bfcb","ImageID":"sha256:7ea0a991bfcb35f81db324a779379c7c39b369ad0a0798433cbd262df361f69b","Command":"/bin/sh -c '. /home/db2inst1/sqllib/db2profile &&  db2start && /home/db2inst1/script-executor/run.sh &&  echo \"DB2 Ready\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":50000,"Type":"tcp"},{"PrivatePort":22,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"7edb87cfc3800636a9f561cd3cf0576979fdaa88b356bff64bdf0aae1f779e65","Gateway":"172.18.0.1","IPAddress":"172.18.0.3","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:03"}}},"Mounts":[]},{"Id":"0bda99b91a30277bc7d04e631f74b81c70c9bac22dcc2874c581d539d8280773","Names":["/db"],"Image":"655d8c3c9f54","ImageID":"sha256:655d8c3c9f540c1dec586b4f200d0c3aa7eb442dcd06b7f7477b937498c55cdd","Command":"docker-entrypoint.sh postgres","Created":1490797916,"Ports":[{"PrivatePort":5432,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"d3834ef01037a6bdf0dba4384b069ca66b42dfd510b788d64612dc2acf70ee7a","Gateway":"172.18.0.1","IPAddress":"172.18.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:02"}}},"Mounts":[{"Type":"volume","Name":"3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e","Source":"/var/lib/docker/volumes/3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e/_data","Destination":"/var/lib/postgresql/data","Driver":"local","Mode":"","RW":true,"Propagation":""}]}]
+
+
+2017-03-29 16:34:20 DEBUG DefaultManagedHttpClientConnection:87 - http-outgoing-1: Shutdown connection
+2017-03-29 16:34:20 DEBUG MainClientExec:128 - Connection discarded
+2017-03-29 16:34:20 DEBUG DefaultManagedHttpClientConnection:79 - http-outgoing-1: Close connection
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory$1:320 - Connection released: [id: 1][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 1 of 2; total allocated: 1 of 20]
+2017-03-29 16:34:20 DEBUG DefaultManagedHttpClientConnection:87 - http-outgoing-3: Shutdown connection
+2017-03-29 16:34:20 DEBUG MainClientExec:128 - Connection discarded
+2017-03-29 16:34:20 DEBUG DefaultManagedHttpClientConnection:79 - http-outgoing-3: Close connection
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory$1:320 - Connection released: [id: 3][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+2017-03-29 16:34:20 DEBUG AbstrDockerCmd:34 - Cmd: -1,<null>,false,<null>,<null>,com.github.dockerjava.core.util.FiltersBuilder@0,com.github.dockerjava.jaxrs.ListContainersCmdExec@2391a35f
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory:159 - 9 * Sending client request on thread pool-1-thread-2
+9 > GET http://172.18.0.1:4243/v1.13/containers/json
+9 > Accept: application/json
+
+2017-03-29 16:34:20 DEBUG RequestAddCookies:122 - CookieSpec selected: default
+2017-03-29 16:34:20 DEBUG RequestAuthCache:76 - Auth cache not set in the context
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory$1:249 - Connection request: [route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory$1:282 - Connection leased: [id: 4][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 1 of 2; total allocated: 1 of 20]
+2017-03-29 16:34:20 DEBUG MainClientExec:234 - Opening connection {}->http://172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG DefaultHttpClientConnectionOperator:131 - Connecting to /172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG DefaultHttpClientConnectionOperator:138 - Connection established 172.18.0.1:44060<->172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG MainClientExec:255 - Executing request GET /v1.13/containers/json HTTP/1.1
+2017-03-29 16:34:20 DEBUG MainClientExec:260 - Target auth state: UNCHALLENGED
+2017-03-29 16:34:20 DEBUG MainClientExec:266 - Proxy auth state: UNCHALLENGED
+2017-03-29 16:34:20 DEBUG headers:124 - http-outgoing-4 >> GET /v1.13/containers/json HTTP/1.1
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-4 >> Accept: application/json
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-4 >> User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-4 >> Host: 172.18.0.1:4243
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-4 >> Connection: Keep-Alive
+2017-03-29 16:34:20 DEBUG headers:127 - http-outgoing-4 >> Accept-Encoding: gzip,deflate
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 >> "GET /v1.13/containers/json HTTP/1.1[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 >> "Accept: application/json[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 >> "User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 >> "Host: 172.18.0.1:4243[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 >> "Connection: Keep-Alive[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 >> "Accept-Encoding: gzip,deflate[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 >> "[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "HTTP/1.1 200 OK[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "Api-Version: 1.26[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "Content-Type: application/json[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "Docker-Experimental: false[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "Server: Docker/1.13.1 (linux)[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "Date: Wed, 29 Mar 2017 14:34:20 GMT[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "Transfer-Encoding: chunked[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "fe0[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "[{"Id":"8bfc218d96dc10542e1deb8d23cf605b630a56baefaec35483fe806c9977bf07","Names":["/web"],"Image":"eap-test","ImageID":"sha256:fde1403a2dac99640c2bbba009edec9915283a31bdaa06aab5720db0a9f5d4bf","Command":"/bin/sh -c '$JBOSS_HOME/bin/standalone.sh -b 0.0.0.0'","Created":1490797933,"Ports":[{"PrivatePort":9999,"Type":"tcp"},{"PrivatePort":9990,"Type":"tcp"},{"PrivatePort":8787,"Type":"tcp"},{"PrivatePort":8080,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"21a3c42efb3efc5ea93b2879b7c32e6043047b70d22ce3a7df99a940d276a8d0","Gateway":"172.18.0.1","IPAddress":"172.18.0.5","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:05"}}},"Mounts":[]},{"Id":"f78276fb6784017f5d01b5d0b31d067fc26e7010c0564c2fc1abe1047efa501e","Names":["/batch"],"Image":"fc03e798d0e5","ImageID":"sha256:fc03e798d0e56919ac95f505890f33a7390ff53d66878d39277c8bb3c03f3fdf","Command":"/bin/sh -c 'echo \"batch container up\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":8000,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"11253a77fdd08c9cbdaf534c549a24f5cd0d8563c9158d22e2c4e220b2ea30f6","Gateway":"172.18.0.1","IPAddress":"172.18.0.4","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:04"}}},"Mounts":[]},{"Id":"a7d07d1d112e674b5858ac2d4d114f5fe13b05515ad1c21debdd5aba6134707c","Names":["/olddb"],"Image":"7ea0a991bfcb","ImageID":"sha256:7ea0a991bfcb35f81db324a779379c7c39b369ad0a0798433cbd262df361f69b","Command":"/bin/sh -c '. /home/db2inst1/sqllib/db2profile &&  db2start && /home/db2inst1/script-executor/run.sh &&  echo \"DB2 Ready\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":22,"Type":"tcp"},{"PrivatePort":50000,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"7edb87cfc3800636a9f561cd3cf0576979fdaa88b356bff64bdf0aae1f779e65","Gateway":"172.18.0.1","IPAddress":"172.18.0.3","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:03"}}},"Mounts":[]},{"Id":"0bda99b91a30277bc7d04e631f74b81c70c9bac22dcc2874c581d539d8280773","Names":["/db"],"Image":"655d8c3c9f54","ImageID":"sha256:655d8c3c9f540c1dec586b4f200d0c3aa7eb442dcd06b7f7477b937498c55cdd","Command":"docker-entrypoint.sh postgres","Created":1490797916,"Ports":[{"PrivatePort":5432,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"d3834ef01037a6bdf0dba4384b069ca66b42dfd510b788d64612dc2acf70ee7a","Gateway":"172.18.0.1","IPAddress":"172.18.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:02"}}},"Mounts":[{"Type":"volume","Name":"3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e","Source":"/var/lib/docker/volumes/3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e/_data","Destination":"/var/lib/postgresql/data","Driver":"local","Mode":"","RW":true,"Propagation":""}]}][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "0[\r][\n]"
+2017-03-29 16:34:20 DEBUG wire:72 - http-outgoing-4 << "[\r][\n]"
+2017-03-29 16:34:20 DEBUG headers:113 - http-outgoing-4 << HTTP/1.1 200 OK
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-4 << Api-Version: 1.26
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-4 << Content-Type: application/json
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-4 << Docker-Experimental: false
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-4 << Server: Docker/1.13.1 (linux)
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-4 << Date: Wed, 29 Mar 2017 14:34:20 GMT
+2017-03-29 16:34:20 DEBUG headers:116 - http-outgoing-4 << Transfer-Encoding: chunked
+2017-03-29 16:34:20 DEBUG MainClientExec:284 - Connection can be kept alive indefinitely
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory:159 - 10 * Client response received on thread pool-1-thread-2
+10 < 200
+10 < Api-Version: 1.26
+10 < Content-Length: -1
+10 < Content-Type: application/json
+10 < Date: Wed, 29 Mar 2017 14:34:20 GMT
+10 < Docker-Experimental: false
+10 < Server: Docker/1.13.1 (linux)
+10 < Transfer-Encoding: chunked
+[{"Id":"8bfc218d96dc10542e1deb8d23cf605b630a56baefaec35483fe806c9977bf07","Names":["/web"],"Image":"eap-test","ImageID":"sha256:fde1403a2dac99640c2bbba009edec9915283a31bdaa06aab5720db0a9f5d4bf","Command":"/bin/sh -c '$JBOSS_HOME/bin/standalone.sh -b 0.0.0.0'","Created":1490797933,"Ports":[{"PrivatePort":9999,"Type":"tcp"},{"PrivatePort":9990,"Type":"tcp"},{"PrivatePort":8787,"Type":"tcp"},{"PrivatePort":8080,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"21a3c42efb3efc5ea93b2879b7c32e6043047b70d22ce3a7df99a940d276a8d0","Gateway":"172.18.0.1","IPAddress":"172.18.0.5","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:05"}}},"Mounts":[]},{"Id":"f78276fb6784017f5d01b5d0b31d067fc26e7010c0564c2fc1abe1047efa501e","Names":["/batch"],"Image":"fc03e798d0e5","ImageID":"sha256:fc03e798d0e56919ac95f505890f33a7390ff53d66878d39277c8bb3c03f3fdf","Command":"/bin/sh -c 'echo \"batch container up\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":8000,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"11253a77fdd08c9cbdaf534c549a24f5cd0d8563c9158d22e2c4e220b2ea30f6","Gateway":"172.18.0.1","IPAddress":"172.18.0.4","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:04"}}},"Mounts":[]},{"Id":"a7d07d1d112e674b5858ac2d4d114f5fe13b05515ad1c21debdd5aba6134707c","Names":["/olddb"],"Image":"7ea0a991bfcb","ImageID":"sha256:7ea0a991bfcb35f81db324a779379c7c39b369ad0a0798433cbd262df361f69b","Command":"/bin/sh -c '. /home/db2inst1/sqllib/db2profile &&  db2start && /home/db2inst1/script-executor/run.sh &&  echo \"DB2 Ready\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":22,"Type":"tcp"},{"PrivatePort":50000,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"7edb87cfc3800636a9f561cd3cf0576979fdaa88b356bff64bdf0aae1f779e65","Gateway":"172.18.0.1","IPAddress":"172.18.0.3","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:03"}}},"Mounts":[]},{"Id":"0bda99b91a30277bc7d04e631f74b81c70c9bac22dcc2874c581d539d8280773","Names":["/db"],"Image":"655d8c3c9f54","ImageID":"sha256:655d8c3c9f540c1dec586b4f200d0c3aa7eb442dcd06b7f7477b937498c55cdd","Command":"docker-entrypoint.sh postgres","Created":1490797916,"Ports":[{"PrivatePort":5432,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"d3834ef01037a6bdf0dba4384b069ca66b42dfd510b788d64612dc2acf70ee7a","Gateway":"172.18.0.1","IPAddress":"172.18.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:02"}}},"Mounts":[{"Type":"volume","Name":"3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e","Source":"/var/lib/docker/volumes/3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e/_data","Destination":"/var/lib/postgresql/data","Driver":"local","Mode":"","RW":true,"Propagation":""}]}]
+
+
+2017-03-29 16:34:20 DEBUG DefaultManagedHttpClientConnection:87 - http-outgoing-4: Shutdown connection
+2017-03-29 16:34:20 DEBUG MainClientExec:128 - Connection discarded
+2017-03-29 16:34:20 DEBUG DefaultManagedHttpClientConnection:79 - http-outgoing-4: Close connection
+2017-03-29 16:34:20 DEBUG JerseyDockerCmdExecFactory$1:320 - Connection released: [id: 4][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+2017-03-29 16:34:21 DEBUG AbstrDockerCmd:34 - Cmd: -1,<null>,false,<null>,<null>,com.github.dockerjava.core.util.FiltersBuilder@0,com.github.dockerjava.jaxrs.ListContainersCmdExec@77774571
+2017-03-29 16:34:21 DEBUG JerseyDockerCmdExecFactory:159 - 11 * Sending client request on thread main
+11 > GET http://172.18.0.1:4243/v1.13/containers/json
+11 > Accept: application/json
+
+2017-03-29 16:34:21 DEBUG RequestAddCookies:122 - CookieSpec selected: default
+2017-03-29 16:34:21 DEBUG RequestAuthCache:76 - Auth cache not set in the context
+2017-03-29 16:34:21 DEBUG JerseyDockerCmdExecFactory$1:249 - Connection request: [route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+2017-03-29 16:34:21 DEBUG JerseyDockerCmdExecFactory$1:282 - Connection leased: [id: 5][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 1 of 2; total allocated: 1 of 20]
+2017-03-29 16:34:21 DEBUG MainClientExec:234 - Opening connection {}->http://172.18.0.1:4243
+2017-03-29 16:34:21 DEBUG DefaultHttpClientConnectionOperator:131 - Connecting to /172.18.0.1:4243
+2017-03-29 16:34:21 DEBUG DefaultHttpClientConnectionOperator:138 - Connection established 172.18.0.1:44062<->172.18.0.1:4243
+2017-03-29 16:34:21 DEBUG MainClientExec:255 - Executing request GET /v1.13/containers/json HTTP/1.1
+2017-03-29 16:34:21 DEBUG MainClientExec:260 - Target auth state: UNCHALLENGED
+2017-03-29 16:34:21 DEBUG MainClientExec:266 - Proxy auth state: UNCHALLENGED
+2017-03-29 16:34:21 DEBUG headers:124 - http-outgoing-5 >> GET /v1.13/containers/json HTTP/1.1
+2017-03-29 16:34:21 DEBUG headers:127 - http-outgoing-5 >> Accept: application/json
+2017-03-29 16:34:21 DEBUG headers:127 - http-outgoing-5 >> User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)
+2017-03-29 16:34:21 DEBUG headers:127 - http-outgoing-5 >> Host: 172.18.0.1:4243
+2017-03-29 16:34:21 DEBUG headers:127 - http-outgoing-5 >> Connection: Keep-Alive
+2017-03-29 16:34:21 DEBUG headers:127 - http-outgoing-5 >> Accept-Encoding: gzip,deflate
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 >> "GET /v1.13/containers/json HTTP/1.1[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 >> "Accept: application/json[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 >> "User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 >> "Host: 172.18.0.1:4243[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 >> "Connection: Keep-Alive[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 >> "Accept-Encoding: gzip,deflate[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 >> "[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "HTTP/1.1 200 OK[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "Api-Version: 1.26[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "Content-Type: application/json[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "Docker-Experimental: false[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "Server: Docker/1.13.1 (linux)[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "Date: Wed, 29 Mar 2017 14:34:21 GMT[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "Transfer-Encoding: chunked[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "fe0[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "[{"Id":"8bfc218d96dc10542e1deb8d23cf605b630a56baefaec35483fe806c9977bf07","Names":["/web"],"Image":"eap-test","ImageID":"sha256:fde1403a2dac99640c2bbba009edec9915283a31bdaa06aab5720db0a9f5d4bf","Command":"/bin/sh -c '$JBOSS_HOME/bin/standalone.sh -b 0.0.0.0'","Created":1490797933,"Ports":[{"PrivatePort":9999,"Type":"tcp"},{"PrivatePort":9990,"Type":"tcp"},{"PrivatePort":8787,"Type":"tcp"},{"PrivatePort":8080,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"21a3c42efb3efc5ea93b2879b7c32e6043047b70d22ce3a7df99a940d276a8d0","Gateway":"172.18.0.1","IPAddress":"172.18.0.5","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:05"}}},"Mounts":[]},{"Id":"f78276fb6784017f5d01b5d0b31d067fc26e7010c0564c2fc1abe1047efa501e","Names":["/batch"],"Image":"fc03e798d0e5","ImageID":"sha256:fc03e798d0e56919ac95f505890f33a7390ff53d66878d39277c8bb3c03f3fdf","Command":"/bin/sh -c 'echo \"batch container up\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":8000,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"11253a77fdd08c9cbdaf534c549a24f5cd0d8563c9158d22e2c4e220b2ea30f6","Gateway":"172.18.0.1","IPAddress":"172.18.0.4","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:04"}}},"Mounts":[]},{"Id":"a7d07d1d112e674b5858ac2d4d114f5fe13b05515ad1c21debdd5aba6134707c","Names":["/olddb"],"Image":"7ea0a991bfcb","ImageID":"sha256:7ea0a991bfcb35f81db324a779379c7c39b369ad0a0798433cbd262df361f69b","Command":"/bin/sh -c '. /home/db2inst1/sqllib/db2profile &&  db2start && /home/db2inst1/script-executor/run.sh &&  echo \"DB2 Ready\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":50000,"Type":"tcp"},{"PrivatePort":22,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"7edb87cfc3800636a9f561cd3cf0576979fdaa88b356bff64bdf0aae1f779e65","Gateway":"172.18.0.1","IPAddress":"172.18.0.3","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:03"}}},"Mounts":[]},{"Id":"0bda99b91a30277bc7d04e631f74b81c70c9bac22dcc2874c581d539d8280773","Names":["/db"],"Image":"655d8c3c9f54","ImageID":"sha256:655d8c3c9f540c1dec586b4f200d0c3aa7eb442dcd06b7f7477b937498c55cdd","Command":"docker-entrypoint.sh postgres","Created":1490797916,"Ports":[{"PrivatePort":5432,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"d3834ef01037a6bdf0dba4384b069ca66b42dfd510b788d64612dc2acf70ee7a","Gateway":"172.18.0.1","IPAddress":"172.18.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:02"}}},"Mounts":[{"Type":"volume","Name":"3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e","Source":"/var/lib/docker/volumes/3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e/_data","Destination":"/var/lib/postgresql/data","Driver":"local","Mode":"","RW":true,"Propagation":""}]}][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "0[\r][\n]"
+2017-03-29 16:34:21 DEBUG wire:72 - http-outgoing-5 << "[\r][\n]"
+2017-03-29 16:34:21 DEBUG headers:113 - http-outgoing-5 << HTTP/1.1 200 OK
+2017-03-29 16:34:21 DEBUG headers:116 - http-outgoing-5 << Api-Version: 1.26
+2017-03-29 16:34:21 DEBUG headers:116 - http-outgoing-5 << Content-Type: application/json
+2017-03-29 16:34:21 DEBUG headers:116 - http-outgoing-5 << Docker-Experimental: false
+2017-03-29 16:34:21 DEBUG headers:116 - http-outgoing-5 << Server: Docker/1.13.1 (linux)
+2017-03-29 16:34:21 DEBUG headers:116 - http-outgoing-5 << Date: Wed, 29 Mar 2017 14:34:21 GMT
+2017-03-29 16:34:21 DEBUG headers:116 - http-outgoing-5 << Transfer-Encoding: chunked
+2017-03-29 16:34:21 DEBUG MainClientExec:284 - Connection can be kept alive indefinitely
+2017-03-29 16:34:21 DEBUG JerseyDockerCmdExecFactory:159 - 12 * Client response received on thread main
+12 < 200
+12 < Api-Version: 1.26
+12 < Content-Length: -1
+12 < Content-Type: application/json
+12 < Date: Wed, 29 Mar 2017 14:34:21 GMT
+12 < Docker-Experimental: false
+12 < Server: Docker/1.13.1 (linux)
+12 < Transfer-Encoding: chunked
+[{"Id":"8bfc218d96dc10542e1deb8d23cf605b630a56baefaec35483fe806c9977bf07","Names":["/web"],"Image":"eap-test","ImageID":"sha256:fde1403a2dac99640c2bbba009edec9915283a31bdaa06aab5720db0a9f5d4bf","Command":"/bin/sh -c '$JBOSS_HOME/bin/standalone.sh -b 0.0.0.0'","Created":1490797933,"Ports":[{"PrivatePort":9999,"Type":"tcp"},{"PrivatePort":9990,"Type":"tcp"},{"PrivatePort":8787,"Type":"tcp"},{"PrivatePort":8080,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"21a3c42efb3efc5ea93b2879b7c32e6043047b70d22ce3a7df99a940d276a8d0","Gateway":"172.18.0.1","IPAddress":"172.18.0.5","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:05"}}},"Mounts":[]},{"Id":"f78276fb6784017f5d01b5d0b31d067fc26e7010c0564c2fc1abe1047efa501e","Names":["/batch"],"Image":"fc03e798d0e5","ImageID":"sha256:fc03e798d0e56919ac95f505890f33a7390ff53d66878d39277c8bb3c03f3fdf","Command":"/bin/sh -c 'echo \"batch container up\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":8000,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"11253a77fdd08c9cbdaf534c549a24f5cd0d8563c9158d22e2c4e220b2ea30f6","Gateway":"172.18.0.1","IPAddress":"172.18.0.4","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:04"}}},"Mounts":[]},{"Id":"a7d07d1d112e674b5858ac2d4d114f5fe13b05515ad1c21debdd5aba6134707c","Names":["/olddb"],"Image":"7ea0a991bfcb","ImageID":"sha256:7ea0a991bfcb35f81db324a779379c7c39b369ad0a0798433cbd262df361f69b","Command":"/bin/sh -c '. /home/db2inst1/sqllib/db2profile &&  db2start && /home/db2inst1/script-executor/run.sh &&  echo \"DB2 Ready\" && tail -f /dev/null'","Created":1490797916,"Ports":[{"PrivatePort":50000,"Type":"tcp"},{"PrivatePort":22,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"7edb87cfc3800636a9f561cd3cf0576979fdaa88b356bff64bdf0aae1f779e65","Gateway":"172.18.0.1","IPAddress":"172.18.0.3","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:03"}}},"Mounts":[]},{"Id":"0bda99b91a30277bc7d04e631f74b81c70c9bac22dcc2874c581d539d8280773","Names":["/db"],"Image":"655d8c3c9f54","ImageID":"sha256:655d8c3c9f540c1dec586b4f200d0c3aa7eb442dcd06b7f7477b937498c55cdd","Command":"docker-entrypoint.sh postgres","Created":1490797916,"Ports":[{"PrivatePort":5432,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 minutes","HostConfig":{"NetworkMode":"stock-application-uat_default"},"NetworkSettings":{"Networks":{"stock-application-uat_default":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"b17b3e80399b01ec1615ea387a30f311f137f2323ef96575a7dd54d175b572bf","EndpointID":"d3834ef01037a6bdf0dba4384b069ca66b42dfd510b788d64612dc2acf70ee7a","Gateway":"172.18.0.1","IPAddress":"172.18.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:12:00:02"}}},"Mounts":[{"Type":"volume","Name":"3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e","Source":"/var/lib/docker/volumes/3605a406643c9754e7872a7f9f07922af7d0fe331dcb1542014e05adf6e24e2e/_data","Destination":"/var/lib/postgresql/data","Driver":"local","Mode":"","RW":true,"Propagation":""}]}]
+
+
+2017-03-29 16:34:21 DEBUG DefaultManagedHttpClientConnection:87 - http-outgoing-5: Shutdown connection
+2017-03-29 16:34:21 DEBUG MainClientExec:128 - Connection discarded
+2017-03-29 16:34:21 DEBUG DefaultManagedHttpClientConnection:79 - http-outgoing-5: Close connection
+2017-03-29 16:34:21 DEBUG JerseyDockerCmdExecFactory$1:320 - Connection released: [id: 5][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+2017-03-29 16:34:21 DEBUG logging:87 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+BasicPath [context=/WEB-INF/classes/com/acme/spring/hibernate/IntegrationHelper.class]
+BasicPath [context=/WEB-INF]
+BasicPath [context=/WEB-INF/classes]
+BasicPath [context=/WEB-INF/classes/com]
+BasicPath [context=/WEB-INF/classes/com/acme]
+BasicPath [context=/WEB-INF/classes/com/acme/spring]
+BasicPath [context=/WEB-INF/classes/com/acme/spring/hibernate]
+BasicPath [context=/WEB-INF/classes/com/acme/spring/hibernate/DatabaseHelper.class]
+BasicPath [context=/WEB-INF/classes/com/acme/spring/hibernate/PostgresqlHelper.class]
+BasicPath [context=/WEB-INF/classes/com/acme/spring/hibernate/Db2Helper.class]
+BasicPath [context=/WEB-INF/classes/applicationContext.xml]
+BasicPath [context=/WEB-INF/classes/datasets/test_case_1/input_dsInt.xml]
+BasicPath [context=/WEB-INF/classes/datasets]
+BasicPath [context=/WEB-INF/classes/datasets/test_case_1]
+BasicPath [context=/WEB-INF/classes/datasets/test_case_1/input_ds.xml]
+BasicPath [context=/WEB-INF/classes/datasets/test_case_1/expected_result_2.xml]
+BasicPath [context=/WEB-INF/classes/datasets/test_case_1/expected_result_1.xml]
+BasicPath [context=/WEB-INF/classes/datasets/test_case_2/input_dsInt.xml]
+BasicPath [context=/WEB-INF/classes/datasets/test_case_2]
+BasicPath [context=/WEB-INF/classes/datasets/test_case_2/input_ds.xml]
+BasicPath [context=/WEB-INF/classes/datasets/test_case_2/expected_result_2.xml]
+BasicPath [context=/WEB-INF/classes/datasets/test_case_2/expected_result_1.xml]
+BasicPath [context=/WEB-INF/lib/stock-application-1.0.0-SNAPSHOT.jar]
+BasicPath [context=/WEB-INF/lib]
+BasicPath [context=/WEB-INF/lib/spring-web-4.3.4.RELEASE.jar]
+BasicPath [context=/WEB-INF/lib/spring-aop-4.3.4.RELEASE.jar]
+BasicPath [context=/WEB-INF/lib/spring-beans-4.3.4.RELEASE.jar]
+BasicPath [context=/WEB-INF/lib/spring-context-4.3.4.RELEASE.jar]
+BasicPath [context=/WEB-INF/lib/spring-expression-4.3.4.RELEASE.jar]
+BasicPath [context=/WEB-INF/lib/spring-core-4.3.4.RELEASE.jar]
+BasicPath [context=/WEB-INF/lib/commons-logging-1.2.jar]
+BasicPath [context=/WEB-INF/lib/spring-orm-4.3.4.RELEASE.jar]
+BasicPath [context=/WEB-INF/lib/spring-jdbc-4.3.4.RELEASE.jar]
+BasicPath [context=/WEB-INF/lib/spring-tx-4.3.4.RELEASE.jar]
+BasicPath [context=/WEB-INF/lib/hibernate-core-5.0.9.Final-redhat-1.jar]
+BasicPath [context=/WEB-INF/lib/jboss-logging-3.3.0.Final.jar]
+BasicPath [context=/WEB-INF/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar]
+BasicPath [context=/WEB-INF/lib/javassist-3.18.1.GA-redhat-2.jar]
+BasicPath [context=/WEB-INF/lib/antlr-2.7.7.jar]
+BasicPath [context=/WEB-INF/lib/geronimo-jta_1.1_spec-1.1.1.jar]
+BasicPath [context=/WEB-INF/lib/jandex-2.0.0.Final.jar]
+BasicPath [context=/WEB-INF/lib/dom4j-1.6.1.jar]
+BasicPath [context=/WEB-INF/lib/xml-apis-1.0.b2.jar]
+BasicPath [context=/WEB-INF/lib/hibernate-commons-annotations-5.0.1.Final-redhat-2.jar]
+BasicPath [context=/WEB-INF/lib/postgresql-42.0.0.jar]
+BasicPath [context=/WEB-INF/lib/db2jcc4-10.1.jar]
+BasicPath [context=/WEB-INF/lib/dbunit-2.5.0.jar]
+BasicPath [context=/WEB-INF/lib/slf4j-api-1.7.7.jar]
+BasicPath [context=/WEB-INF/lib/junit-4.12.jar]
+BasicPath [context=/WEB-INF/lib/hamcrest-core-1.3.jar]
+BasicPath [context=/WEB-INF/lib/commons-collections-3.2.1.jar]
+2017-03-29 16:34:23 INFO  xnio:99 - XNIO version 3.3.6.Final-redhat-1
+2017-03-29 16:34:23 INFO  nio:55 - XNIO NIO Implementation Version 3.3.6.Final-redhat-1
+2017-03-29 16:34:23 DEBUG nio:431 - Started channel thread 'Remoting "management-client" Accept', selector sun.nio.ch.EPollSelectorImpl@45c0afeb
+2017-03-29 16:34:23 DEBUG nio:431 - Started channel thread 'Remoting "management-client" I/O-1', selector sun.nio.ch.EPollSelectorImpl@3c6079cd
+2017-03-29 16:34:23 INFO  remoting:73 - JBoss Remoting version 4.0.18.Final-redhat-1
+2017-03-29 16:34:30 DEBUG nio:431 - Started channel thread 'Remoting "endpoint" I/O-1', selector sun.nio.ch.EPollSelectorImpl@616228f1
+2017-03-29 16:34:30 DEBUG nio:431 - Started channel thread 'Remoting "endpoint" Accept', selector sun.nio.ch.EPollSelectorImpl@31682c53
+2017-03-29 16:34:30 DEBUG client:682 - Client authentication failed for mechanism JBOSS-LOCAL-USER: javax.security.sasl.SaslException: Failed to read server challenge [Caused by java.io.FileNotFoundException: /opt/eap7/standalone/tmp/auth/local8529954706090608993.challenge (No such file or directory)]
+2017-03-29 16:34:30 DEBUG VersionedConectionFactory:176 - Available version (Versions  0x00 0x01)
+2017-03-29 16:34:30 DEBUG VersionedConectionFactory:182 - Calling a stable server
+2017-03-29 16:34:30 DEBUG VersionedConectionFactory:134 - Selecting version 0x00 to receive full version list.
+2017-03-29 16:34:30 DEBUG VersionedConectionFactory:176 - Available version (Versions  0x01 0x02)
+2017-03-29 16:34:30 DEBUG VersionedConectionFactory:182 - Calling a stable server
+2017-03-29 16:34:30 DEBUG VersionedConectionFactory:197 - Server version 2.0.1.Final-redhat-1
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 33.503 sec - in com.acme.spring.hibernate.service.impl.UnifiedStockTestCase
+2017-03-29 16:34:51 DEBUG AbstrDockerCmd:34 - Cmd: a5bc6944354f44759e2fc3218388a8c2dbbb7a930be5e96e288581802e4b2608,com.github.dockerjava.jaxrs.RemoveNetworkCmdExec@48a2db72
+2017-03-29 16:34:51 DEBUG JerseyDockerCmdExecFactory:159 - 13 * Sending client request on thread main
+13 > DELETE http://172.18.0.1:4243/v1.13/networks/a5bc6944354f44759e2fc3218388a8c2dbbb7a930be5e96e288581802e4b2608
+13 > Accept: application/json
+
+2017-03-29 16:34:51 DEBUG RequestAddCookies:122 - CookieSpec selected: default
+2017-03-29 16:34:51 DEBUG RequestAuthCache:76 - Auth cache not set in the context
+2017-03-29 16:34:51 DEBUG JerseyDockerCmdExecFactory$1:249 - Connection request: [route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 0 of 2; total allocated: 0 of 20]
+2017-03-29 16:34:51 DEBUG JerseyDockerCmdExecFactory$1:282 - Connection leased: [id: 6][route: {}->http://172.18.0.1:4243][total kept alive: 0; route allocated: 1 of 2; total allocated: 1 of 20]
+2017-03-29 16:34:51 DEBUG MainClientExec:234 - Opening connection {}->http://172.18.0.1:4243
+2017-03-29 16:34:51 DEBUG DefaultHttpClientConnectionOperator:131 - Connecting to /172.18.0.1:4243
+2017-03-29 16:34:51 DEBUG DefaultHttpClientConnectionOperator:138 - Connection established 172.18.0.1:44168<->172.18.0.1:4243
+2017-03-29 16:34:51 DEBUG MainClientExec:255 - Executing request DELETE /v1.13/networks/a5bc6944354f44759e2fc3218388a8c2dbbb7a930be5e96e288581802e4b2608 HTTP/1.1
+2017-03-29 16:34:51 DEBUG MainClientExec:260 - Target auth state: UNCHALLENGED
+2017-03-29 16:34:51 DEBUG MainClientExec:266 - Proxy auth state: UNCHALLENGED
+2017-03-29 16:34:51 DEBUG headers:124 - http-outgoing-6 >> DELETE /v1.13/networks/a5bc6944354f44759e2fc3218388a8c2dbbb7a930be5e96e288581802e4b2608 HTTP/1.1
+2017-03-29 16:34:51 DEBUG headers:127 - http-outgoing-6 >> Accept: application/json
+2017-03-29 16:34:51 DEBUG headers:127 - http-outgoing-6 >> User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)
+2017-03-29 16:34:51 DEBUG headers:127 - http-outgoing-6 >> Host: 172.18.0.1:4243
+2017-03-29 16:34:51 DEBUG headers:127 - http-outgoing-6 >> Connection: Keep-Alive
+2017-03-29 16:34:51 DEBUG headers:127 - http-outgoing-6 >> Accept-Encoding: gzip,deflate
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 >> "DELETE /v1.13/networks/a5bc6944354f44759e2fc3218388a8c2dbbb7a930be5e96e288581802e4b2608 HTTP/1.1[\r][\n]"
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 >> "Accept: application/json[\r][\n]"
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 >> "User-Agent: Jersey/2.23.1 (Apache HttpClient 4.5)[\r][\n]"
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 >> "Host: 172.18.0.1:4243[\r][\n]"
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 >> "Connection: Keep-Alive[\r][\n]"
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 >> "Accept-Encoding: gzip,deflate[\r][\n]"
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 >> "[\r][\n]"
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 << "HTTP/1.1 204 No Content[\r][\n]"
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 << "Api-Version: 1.26[\r][\n]"
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 << "Docker-Experimental: false[\r][\n]"
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 << "Server: Docker/1.13.1 (linux)[\r][\n]"
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 << "Date: Wed, 29 Mar 2017 14:34:51 GMT[\r][\n]"
+2017-03-29 16:34:51 DEBUG wire:72 - http-outgoing-6 << "[\r][\n]"
+2017-03-29 16:34:51 DEBUG headers:113 - http-outgoing-6 << HTTP/1.1 204 No Content
+2017-03-29 16:34:51 DEBUG headers:116 - http-outgoing-6 << Api-Version: 1.26
+2017-03-29 16:34:51 DEBUG headers:116 - http-outgoing-6 << Docker-Experimental: false
+2017-03-29 16:34:51 DEBUG headers:116 - http-outgoing-6 << Server: Docker/1.13.1 (linux)
+2017-03-29 16:34:51 DEBUG headers:116 - http-outgoing-6 << Date: Wed, 29 Mar 2017 14:34:51 GMT
+2017-03-29 16:34:51 DEBUG MainClientExec:284 - Connection can be kept alive indefinitely
+2017-03-29 16:34:51 DEBUG JerseyDockerCmdExecFactory$1:314 - Connection [id: 6][route: {}->http://172.18.0.1:4243] can be kept alive indefinitely
+2017-03-29 16:34:51 DEBUG JerseyDockerCmdExecFactory$1:320 - Connection released: [id: 6][route: {}->http://172.18.0.1:4243][total kept alive: 1; route allocated: 1 of 2; total allocated: 1 of 20]
+2017-03-29 16:34:51 DEBUG JerseyDockerCmdExecFactory:159 - 14 * Client response received on thread main
+14 < 204
+14 < Api-Version: 1.26
+14 < Date: Wed, 29 Mar 2017 14:34:51 GMT
+14 < Docker-Experimental: false
+14 < Server: Docker/1.13.1 (linux)
+
+
+Results :
+
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ stock-application-uat ---
+[WARNING] JAR will be empty - no content was marked for inclusion!
+[INFO] Building jar: /home/scott/dev/docker/projects/stock-application-project/stock-application-uat/target/stock-application-uat-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ stock-application-uat ---
+[INFO] Installing /home/scott/dev/docker/projects/stock-application-project/stock-application-uat/target/stock-application-uat-1.0.0-SNAPSHOT.jar to /home/scott/.m2/repository/org/scott/stock-application-uat/1.0.0-SNAPSHOT/stock-application-uat-1.0.0-SNAPSHOT.jar
+[INFO] Installing /home/scott/dev/docker/projects/stock-application-project/stock-application-uat/pom.xml to /home/scott/.m2/repository/org/scott/stock-application-uat/1.0.0-SNAPSHOT/stock-application-uat-1.0.0-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 40.589 s
+[INFO] Finished at: 2017-03-29T16:34:52+02:00
+[INFO] Final Memory: 40M/211M
+[INFO] ------------------------------------------------------------------------

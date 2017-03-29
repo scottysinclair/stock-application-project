@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:ctx="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <ctx:property-placeholder location="file:application.properties"/>
+
+    <!-- Settings for external data source, DriverManagerDataSource is used only for test purpose in real situation use pooling datasource like DBCP  -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${new.driver}"/>
+        <property name="url" value="${new.jdbcurl}"/>
+        <property name="username" value="${new.user}"/>
+        <property name="password" value="${new.password}"/>
+    </bean>
+
+    <!-- Settings for external data source, DriverManagerDataSource is used only for test purpose in real situation use pooling datasource like DBCP  -->
+    <bean id="dataSourceInt" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${old.driver}"/>
+        <property name="url" value="${old.jdbcurl}"/>
+        <property name="username" value="${old.user}"/>
+        <property name="password" value="${old.password}"/>
+    </bean>
+
+</beans>
