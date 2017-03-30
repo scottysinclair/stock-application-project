@@ -1,5 +1,7 @@
 package com.acme.spring.hibernate;
 
+import java.io.File;
+
 import javax.sql.DataSource;
 
 /**
@@ -10,7 +12,7 @@ import javax.sql.DataSource;
 public class Db2Helper extends DatabaseHelper {
 
     public Db2Helper(DataSource dataSource) {
-        super(dataSource);
+        super(dataSource, "input_dsInt.xml", "int_tables.xml");
     }
 
 }

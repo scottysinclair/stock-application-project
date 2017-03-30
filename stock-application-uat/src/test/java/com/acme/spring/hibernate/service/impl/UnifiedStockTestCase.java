@@ -22,20 +22,19 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
-import org.hibernate.SessionFactory;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.spring.integration.test.annotation.SpringConfiguration;
 import org.jboss.shrinkwrap.api.Archive;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.acme.spring.hibernate.Db2Helper;
 import com.acme.spring.hibernate.Deployments;
 import com.acme.spring.hibernate.IntegrationHelper;
-import com.acme.spring.hibernate.PostgresqlHelper;
+import com.acme.spring.hibernate.UnifiedTestHelper;
 import com.acme.spring.hibernate.domain.Stock;
 import com.acme.spring.hibernate.service.StockService;
 
@@ -58,6 +57,9 @@ public class UnifiedStockTestCase  {
         return Deployments.createDeployment();
     }
 
+    @Rule
+    public final UnifiedTestHelper unifiedTestHelper = new UnifiedTestHelper();
+
     @Autowired
     @Qualifier("dataSource")
     private DataSource ds;
@@ -66,27 +68,17 @@ public class UnifiedStockTestCase  {
     @Qualifier("dataSourceInt")
     private DataSource dsInt;
 
-    private PostgresqlHelper postgresHelper;
-
-    private Db2Helper db2Helper;
-
     /**
      * <p>Injected {@link com.acme.spring.hibernate.service.impl.DefaultStockService}.</p>
      */
     @Autowired
     private StockService stockService;
 
-    /**
-     * <p>{@link SessionFactory} instance used by tests.</p>
-     */
-    @Autowired
-    private SessionFactory sessionFactory;
-
     @PostConstruct
     public void init() {
-        postgresHelper = new PostgresqlHelper(ds);
-        db2Helper = new Db2Helper(dsInt);
+        unifiedTestHelper.initializePostgres(ds).initializeDb2(dsInt);
     }
+
 
     /**
      * Test case: http://beitrag-confluence/VVL/testcases/testcase1
@@ -94,12 +86,6 @@ public class UnifiedStockTestCase  {
      */
     @Test
     public void test_case_1() throws Exception  {
-      /*
-       * clean and prepare old and new databases
-       */
-      postgresHelper.prepareNewDatabase();
-      db2Helper.prepareOldDatabase();
-
       /*
        * perform some business logic in the new application
        */
@@ -112,7 +98,7 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the new application database.
        */
-      postgresHelper.assertNewTestData(new String[]{"date"});
+      unifiedTestHelper.assertNewTestData(new String[]{"date"});
 
       /*
        * execute the integration job.
@@ -122,7 +108,7 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the DB2 database after integration.
        */
-      db2Helper.assertFirstIntegration(new String[]{"date"});
+      unifiedTestHelper.assertFirstIntegration(new String[]{"date"});
     }
 
 
@@ -133,12 +119,6 @@ public class UnifiedStockTestCase  {
     @Test
     public void test_case_2() throws Exception  {
       /*
-       * clean and prepare old and new databases
-       */
-      postgresHelper.prepareNewDatabase();
-      db2Helper.prepareOldDatabase();
-
-      /*
        * perform some business logic in the new application
        */
       Stock acme = createStock("ABC", "ABC", 999.21D, new Date());
@@ -147,7 +127,7 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the new application database.
        */
-      postgresHelper.assertNewTestData(new String[]{"date"});
+      unifiedTestHelper.assertNewTestData(new String[]{"date"});
 
       /*
        * execute the integration job.
@@ -157,7 +137,7 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the DB2 database after integration.
        */
-      db2Helper.assertFirstIntegration(new String[]{"date"});
+      unifiedTestHelper.assertFirstIntegration(new String[]{"date"});
     }
 
     /**

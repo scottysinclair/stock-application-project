@@ -56,6 +56,7 @@ public final class Deployments {
 
             WebArchive archive = ShrinkWrap.create(WebArchive.class, "stock-application.war")
               .addClass(IntegrationHelper.class)
+              .addClass(UnifiedTestHelper.class)
               .addClass(DatabaseHelper.class)
               .addClass(PostgresqlHelper.class)
               .addClass(Db2Helper.class)

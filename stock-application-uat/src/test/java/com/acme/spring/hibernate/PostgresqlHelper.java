@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 public class PostgresqlHelper extends DatabaseHelper {
 
     public PostgresqlHelper(DataSource dataSource) {
-        super(dataSource);
+        super(dataSource, "input_ds.xml", "new_application.xml");
     }
 
     /**

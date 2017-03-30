@@ -25,6 +25,7 @@
           depends_on: [db,olddb]
           environment:
             - DOCKER_SERVER_URI=${arq.extension.docker.serverUri}
+            - uat_target=/tmp/target
         batch:
           build:
             context: ../stock-application-batch

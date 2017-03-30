@@ -435,29 +435,6 @@
       <groupId>org.jboss.arquillian.protocol</groupId>
       <artifactId>arquillian-protocol-servlet</artifactId>
     </dependency>
-
-    <dependency>
-      <groupId>org.jboss.spec</groupId>
-      <artifactId>jboss-javaee-6.0</artifactId>
-      <type>pom</type>
-      <scope>provided</scope>
-      <version>3.0.3.Final</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.arquillian.container</groupId>
-      <artifactId>arquillian-container-chameleon</artifactId>
-      <version>1.0.0.Beta1</version>
-      <scope>test</scope>
-    </dependency>
-
-
-    <dependency>
-      <groupId>org.jboss.arquillian.protocol</groupId>
-      <artifactId>arquillian-protocol-servlet</artifactId>
-      <scope>test</scope>
-      <version>${version.arquillian}</version>
-    </dependency>
   </dependencies>
 
   <build>
@@ -533,6 +510,34 @@
       </plugin>
     </plugins>
   </build>
+
+    <profiles>
+       <profile>
+            <id>uat</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.spec</groupId>
+                    <artifactId>jboss-javaee-6.0</artifactId>
+                    <type>pom</type>
+                    <scope>provided</scope>
+                    <version>3.0.3.Final</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.arquillian.container</groupId>
+                    <artifactId>arquillian-container-chameleon</artifactId>
+                    <version>1.0.0.Beta1</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.protocol</groupId>
+                    <artifactId>arquillian-protocol-servlet</artifactId>
+                    <scope>test</scope>
+                    <version>${version.arquillian}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+
 
   <repositories>
     <repository>
