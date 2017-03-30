@@ -19,7 +19,7 @@
       version: "2"
       services:
         web:
-          image: eap-test
+          image: scottysinclair/eap-test
           hostname: web
           portBindings: [8080->8080/tcp, 9990->9990/tcp, 9999->9999/tcp]
           depends_on: [db,olddb]

@@ -7,6 +7,14 @@ import java.io.InputStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Helper class for executing the integration job.</br>
+ *</br>
+ * Expects the system environment variable DOCKER_SERVER_URI to be set.
+ *
+ * @author scott
+ *
+ */
 public class IntegrationHelper {
 
     private static final Logger LOG = LoggerFactory.getLogger(IntegrationHelper.class);
@@ -15,10 +23,8 @@ public class IntegrationHelper {
     private static final String INTEGRATION_SCRIPT = "/opt/stock-application-batch/run_integration.sh";
 
     /**
-     * option SYS properties
-     * DOCKER_HOST=tcp://xx:yy
-     * @throws IOException
-     * @See https://github.com/docker-java/docker-java
+     * Executes the integration batch job using docker client to execute the script
+     * on the batch docker container.
      */
     public static void executeIntegration() {
 
@@ -27,6 +33,10 @@ public class IntegrationHelper {
             throw new IllegalStateException("DOCKER_SERVER_URI environment variable is missing");
        }
 
+       /**
+        * JBoss uses the Reseteasy JAX-RS implementation which prevents the Java DockerClient from
+        * executing within the same JVM, therefore we launch a separate Java process.</br>
+        */
         ProcessBuilder builder = new ProcessBuilder(
                 "/opt/dockerclient/exec.sh",
                 serverUri,

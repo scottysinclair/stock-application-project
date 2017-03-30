@@ -3,7 +3,7 @@ package com.acme.spring.hibernate;
 import javax.sql.DataSource;
 
 /**
- * We can implement any custom behaviour for DB2 in this class
+ * Extends the DatabaseHelper for any DB2 specific requirements.
  * @author scott
  *
  */

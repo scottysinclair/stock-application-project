@@ -7,12 +7,20 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
+/**
+ * Extends the DatabaseHelper for any Postgresql specific requirements.
+ * @author scott
+ *
+ */
 public class PostgresqlHelper extends DatabaseHelper {
 
     public PostgresqlHelper(DataSource dataSource) {
         super(dataSource);
     }
 
+    /**
+     * @see DatabaseHelper.prepareDatabase
+     */
     public void prepareDatabase(String datasetPath) throws Exception {
         super.prepareDatabase(datasetPath);
         fixSequences();
