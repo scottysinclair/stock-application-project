@@ -19,5 +19,7 @@
         <property name="password" value="password"/>
     </bean>
 
+    <bean name="unifiedTestHelpe" class="com.acme.spring.hibernate.UnifiedTestHelper"/>
+
 
 </beans>

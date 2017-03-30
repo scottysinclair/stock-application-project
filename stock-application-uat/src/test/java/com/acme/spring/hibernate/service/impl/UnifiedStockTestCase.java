@@ -57,27 +57,18 @@ public class UnifiedStockTestCase  {
         return Deployments.createDeployment();
     }
 
+    /**
+     * Helper to manage the state of the databases, assert expected results etc.
+     */
     @Rule
-    public final UnifiedTestHelper unifiedTestHelper = new UnifiedTestHelper();
-
     @Autowired
-    @Qualifier("dataSource")
-    private DataSource ds;
-
-    @Autowired
-    @Qualifier("dataSourceInt")
-    private DataSource dsInt;
+    public UnifiedTestHelper unifiedTestHelper;
 
     /**
      * <p>Injected {@link com.acme.spring.hibernate.service.impl.DefaultStockService}.</p>
      */
     @Autowired
     private StockService stockService;
-
-    @PostConstruct
-    public void init() {
-        unifiedTestHelper.initializePostgres(ds).initializeDb2(dsInt);
-    }
 
 
     /**

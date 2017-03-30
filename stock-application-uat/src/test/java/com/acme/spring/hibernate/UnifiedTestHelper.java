@@ -1,28 +1,38 @@
 package com.acme.spring.hibernate;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
+/**
+ * Initializes the PostgresSQL and DB2 and also asserts their content inline with the junit test lifecycle.
+ * @author scott
+ *
+ */
 public class UnifiedTestHelper extends TestWatcher {
 
+  @Autowired
+  @Qualifier("dataSource")
+  private DataSource ds;
+
+  @Autowired
+  @Qualifier("dataSourceInt")
+  private DataSource dsInt;
+
   private PostgresqlHelper pgHelper;
+
   private Db2Helper db2Helper;
+
   private String testName;
 
-  public UnifiedTestHelper initializePostgres(DataSource ds) {
-    if (pgHelper == null)  {
-      pgHelper = new PostgresqlHelper( ds );
-   }
-    return this;
-  }
-
-  public UnifiedTestHelper initializeDb2(DataSource ds) {
-    if (db2Helper == null) {
-      db2Helper = new Db2Helper( ds );
-    }
-    return this;
+  @PostConstruct
+  public void init() {
+    pgHelper = new PostgresqlHelper(ds);
+    db2Helper = new Db2Helper(dsInt);
   }
 
   @Override
@@ -50,6 +60,5 @@ public class UnifiedTestHelper extends TestWatcher {
   public void assertFirstIntegration(String[] excludedColumns) throws Exception {
     db2Helper.assertTestData("asserting integration tables", "/" + testName + "/expected_result_2.xml", null, excludedColumns);
   }
-
 
 }
