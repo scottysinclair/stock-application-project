@@ -96,3 +96,4 @@ If a test case fails then both the PostgreSQL and the DB2 databse contents are d
 1. DBUnit is failing to dump the DB2 database contents on error. DBUnit mentions that there is a compatibility problem upfront in the EAP7 logs.
 2. The host OS DOCKER_HOST environment variable should be respected.
 3. The management host IP address in the arquillian XML file is currently hardcoded to 172.18.0.5, but this IP address is provided by docker and can change. We need to add a dynamic mechanism here.
+4. Cannot write the database dump files to the build machine. There is a problem with arquillian-cube volume specification wich has been fixed on the 29th of March (https://github.com/arquillian/arquillian-cube/pull/651). This problem can be fixed if we upgrade to the current SNAPSHOT version of arquillian-cube. 
