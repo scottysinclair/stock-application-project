@@ -95,4 +95,4 @@ If a test case fails then both the PostgreSQL and the DB2 databse contents are d
 ## Open Issues
 1. DBUnit is failing to dump the DB2 database contents on error. DBUnit mentions that there is a compatibility problem upfront in the EAP7 logs.
 2. The host OS DOCKER_HOST environment variable should be respected.
-3. The management host IP address in the arquillian XML file is currently hardcoded to 172.18.0.5
+3. The management host IP address in the arquillian XML file is currently hardcoded to 172.18.0.5, but this IP address is provided by docker and can change. We need to add a dynamic mechanism here.
