@@ -91,3 +91,8 @@ DBUnit will compare the DB2 database tables with the content of file [expected_r
 
 ### On test case failure
 If a test case fails then both the PostgreSQL and the DB2 databse contents are dumped to /tmp/target/test_case_1/new_application.xml and /tmp/target/test_case_1/int_tables.xml respectively.
+
+## Open Issues
+1. DBUnit is failing to dump the DB2 database contents on error. DBUnit mentions that there is a compatibility problem upfront in the EAP7 logs.
+2. The host OS DOCKER_HOST environment variable should be respected.
+3. The management host IP address in the arquillian XML file is currently hardcoded to 172.18.0.5
