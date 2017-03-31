@@ -9,7 +9,7 @@ Execute automated tests against a real project infrastructure, in this case:
 *Arquillian Spring* supports using Spring inside the Arqulllian Test Suite.  
 *Arquillian Persistence* provide support for using DBUnit inside the Arquillian Test Suite.  
 
-## Steps in the automate test process
+## Steps in the automated test process
 
 ### Launch the test
 Launch the tests by running `mvn clean install -Puat`
@@ -77,5 +77,9 @@ In this case the test method creates two new Stocks.
 ### The test method asserts the state of the PostgreSQL database
 DBUnit will compare the PostgreSQL database tables with the content of file [expected_result_1.xml](src/test/resources/datasets/test_case_1/expected_result_1.xml)
 
-### The test method executes the integration job which syncs data to the DB2 database
+### The test method executes the integration batch job which syncs data to the DB2 database
+The batch job is hosted in the *batch* docker container. The [Java Docker client](https://github.com/docker-java/docker-java) is used to execute the batch job on the batch container using the docker **EXEC** command.
 
+Note. The Java Docker client uses The Jersey JAX-RS implementation for communicating with the docker daemon. EAP7 on the other hand uses the [RestEasy](http://resteasy.jboss.org/) JAX-RS implementation and due to the class loading architecture of JBOSS it is not easy to override the implementation.
+
+For this reason a simple Java application [docker-client-commandline](https://github.com/scottysinclair/docker-client-commandline) which wraps the Java Docker Client is installed in the EAP7 Docker container. The test harness then executes an OS process to launch the Docker Client which then executes the batch job on the batch container. 
