@@ -80,6 +80,14 @@ DBUnit will compare the PostgreSQL database tables with the content of file [exp
 ### The test method executes the integration batch job which syncs data to the DB2 database
 The batch job is hosted in the *batch* docker container. The [Java Docker client](https://github.com/docker-java/docker-java) is used to execute the batch job on the batch container using the docker **EXEC** command.
 
-Note. The Java Docker client uses The Jersey JAX-RS implementation for communicating with the docker daemon. EAP7 on the other hand uses the [RestEasy](http://resteasy.jboss.org/) JAX-RS implementation and due to the class loading architecture of JBOSS it is not easy to override the implementation.
+Note. The Java Docker client has a hard dependency to the Jersey JAX-RS implementation for communicating with the docker daemon. EAP7 on the other hand uses the [RestEasy JAX-RS](http://resteasy.jboss.org/) implementation and due to the class loading architecture of JBOSS it is not easy to override the implementation.
 
-For this reason a simple Java application [docker-client-commandline](https://github.com/scottysinclair/docker-client-commandline) which wraps the Java Docker Client is installed in the EAP7 Docker container. The test harness then executes an OS process to launch the Docker Client which then executes the batch job on the batch container. 
+For this reason a simple Java application [docker-client-commandline](https://github.com/scottysinclair/docker-client-commandline) which wraps the Java Docker Client with command-line execution is installed in the EAP7 Docker container. The test harness then executes an OS process to launch the commandline Docker Client to execute the batch job on the container.
+
+For this to work the EAP7 docker container must have the following enviornment variable set `DOCKER_SERVER_URI` and it must point to the Docker daeomon which was used to launch the test containers.
+
+### The test method asserts the state of the DB2 database
+DBUnit will compare the DB2 database tables with the content of file [expected_result_2.xml](src/test/resources/datasets/test_case_1/expected_result_2.xml)
+
+### On test case failure
+If a test case fails then both the PostgreSQL and the DB2 databse contents are dumped to /tmp/target/test_case_1/new_application.xml and /tmp/target/test_case_1/int_tables.xml respectively.
