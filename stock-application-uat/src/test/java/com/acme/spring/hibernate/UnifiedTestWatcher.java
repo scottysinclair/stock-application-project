@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
- * Initializes the PostgresSQL and DB2 and also asserts their content inline with the junit test lifecycle.
+ * Plugs in to the junit test lifecycle to prepare the databases before each test and to dump the databases to XML when a test fails.
  * @author scott
  *
  */
-public class UnifiedTestHelper extends TestWatcher {
+public class UnifiedTestWatcher extends TestWatcher {
 
   @Autowired
   @Qualifier("dataSource")
@@ -35,12 +35,9 @@ public class UnifiedTestHelper extends TestWatcher {
     db2Helper = new Db2Helper(dsInt);
   }
 
-  @Override
-  protected void failed(Throwable e, Description description) {
-    pgHelper.dumpDatabase( testName );
-    db2Helper.dumpDatabase( testName );
-  }
-
+  /**
+   * cleans then inserts the test data into PostgreSQL and DB2
+   */
   @Override
   protected void starting(Description description) {
     try {
@@ -59,6 +56,15 @@ public class UnifiedTestHelper extends TestWatcher {
 
   public void assertFirstIntegration(String[] excludedColumns) throws Exception {
     db2Helper.assertTestData("asserting integration tables", "/" + testName + "/expected_result_2.xml", null, excludedColumns);
+  }
+
+  /**
+   * The database is dumped when a test fails.
+   */
+  @Override
+  protected void failed(Throwable e, Description description) {
+    pgHelper.dumpDatabase( testName );
+    db2Helper.dumpDatabase( testName );
   }
 
 }

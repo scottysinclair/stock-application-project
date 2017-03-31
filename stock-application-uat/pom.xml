@@ -502,7 +502,6 @@
         <version>2.19.1</version>
         <configuration>
           <systemPropertyVariables>
-            <version.application.totest>${version.application.totest}</version.application.totest>
             <arq.extension.docker.serverUri>tcp://${host_addr}:4243</arq.extension.docker.serverUri>
             <log4j.configuration>file:log4j.properties</log4j.configuration>
           </systemPropertyVariables>

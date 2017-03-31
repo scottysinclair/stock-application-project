@@ -19,9 +19,6 @@ package com.acme.spring.hibernate.service.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
-
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.spring.integration.test.annotation.SpringConfiguration;
@@ -30,19 +27,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.acme.spring.hibernate.Deployments;
 import com.acme.spring.hibernate.IntegrationHelper;
-import com.acme.spring.hibernate.UnifiedTestHelper;
+import com.acme.spring.hibernate.UnifiedTestWatcher;
 import com.acme.spring.hibernate.domain.Stock;
 import com.acme.spring.hibernate.service.StockService;
 
-/**
- * <p>Tests the {@link com.acme.spring.hibernate.service.impl.DefaultStockService} class.</p>
- *
- * @author <a href="mailto:jmnarloch@gmail.com">Jakub Narloch</a>
- */
+
 @RunWith(Arquillian.class)
 @SpringConfiguration("applicationContext.xml")
 public class UnifiedStockTestCase  {
@@ -58,11 +50,11 @@ public class UnifiedStockTestCase  {
     }
 
     /**
-     * Helper to manage the state of the databases, assert expected results etc.
+     * Plugs in to the junit test lifecycle to prepare the databases before each test and to dump the databases to XML when a test fails.
      */
     @Rule
     @Autowired
-    public UnifiedTestHelper unifiedTestHelper;
+    public UnifiedTestWatcher unifiedTestWatcher;
 
     /**
      * <p>Injected {@link com.acme.spring.hibernate.service.impl.DefaultStockService}.</p>
@@ -89,7 +81,7 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the new application database.
        */
-      unifiedTestHelper.assertNewTestData(new String[]{"date"});
+      unifiedTestWatcher.assertNewTestData(new String[]{"date"});
 
       /*
        * execute the integration job.
@@ -99,7 +91,7 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the DB2 database after integration.
        */
-      unifiedTestHelper.assertFirstIntegration(new String[]{"date"});
+      unifiedTestWatcher.assertFirstIntegration(new String[]{"date"});
     }
 
 
@@ -118,7 +110,7 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the new application database.
        */
-      unifiedTestHelper.assertNewTestData(new String[]{"date"});
+      unifiedTestWatcher.assertNewTestData(new String[]{"date"});
 
       /*
        * execute the integration job.
@@ -128,7 +120,7 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the DB2 database after integration.
        */
-      unifiedTestHelper.assertFirstIntegration(new String[]{"date"});
+      unifiedTestWatcher.assertFirstIntegration(new String[]{"date"});
     }
 
     /**
