@@ -39,6 +39,41 @@ Each test case has it's own directory under `/datasets/` which contains DBUnit d
 DBUnit will perform a **CLEAN_INSERT** for PostgreSQL by finding a file [input_ds.xml](./src/test/resources/datasets/test_case_1/input_ds.xml)
 DBUnit will perform a **CLEAN_INSERT** for DB2 by finding a file [input_dsInt.xml](./src/test/resources/datasets/test_case_1/input_dsInt.xml)
 
-If DBUnit should just clean the tables and not perform any inserts then the XML file should just refer to the table but not specify any data. DBUnit will then only peform the clean.
+If DBUnit should just clean the tables and not perform any inserts then the XML file should just refer to the table but not specify any data. DBUnit will then only peform the clean (this is what [input_dsInt.xml](./src/test/resources/datasets/test_case_1/input_dsInt.xml) does).
 
+### The test method is lauched
+```Java
+    @Test
+    public void test_case_1() throws Exception  {
+      /*
+       * perform some business logic in the new application
+       */
+      Stock acme = createStock("Acme", "ACM", 123.21D, new Date());
+      stockService.save(acme);
+
+      Stock redhat = createStock("Red Hat", "RHC", 59.61D, new Date());
+      stockService.save(redhat);
+
+      /*
+       * assert the state of the new application database.
+       */
+      unifiedTestHelper.assertNewTestData(new String[]{"date"});
+
+      /*
+       * execute the integration job.
+       */
+      IntegrationHelper.executeIntegration();
+
+      /*
+       * assert the state of the DB2 database after integration.
+       */
+      unifiedTestHelper.assertFirstIntegration(new String[]{"date"});
+    }
+```
+
+### The test method executes some business logic
+In this case the test method creates two new Stocks.
+
+## The test method asserts the state of the PostgreSQL database
+DBunit compares the actual PostgreSQL database tables to the dataset located at [/datasets/test_case_1/expected_result_1.xml](src/test/main/resources/datasets/test_case_1/expected_result_1.xml)
 
