@@ -74,6 +74,8 @@ If DBUnit should just clean the tables and not perform any inserts then the XML 
 ### The test method executes some business logic
 In this case the test method creates two new Stocks.
 
-## The test method asserts the state of the PostgreSQL database
-DBunit compares the actual PostgreSQL database tables to the dataset located at [/datasets/test_case_1/expected_result_1.xml](src/test/main/resources/datasets/test_case_1/expected_result_1.xml)
+### The test method asserts the state of the PostgreSQL database
+DBUnit will compare the PostgreSQL database tables with the content of file [expected_result_1.xml](src/test/resources/datasets/test_case_1/expected_result_1.xml)
+
+### The test method executes the integration job which syncs data to the DB2 database
 
