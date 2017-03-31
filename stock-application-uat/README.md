@@ -26,14 +26,16 @@ The DOOCKER_HOST is currently assumed to be http://localhost:4243 but this restr
 ### WAR file deployed on server
 Once the containers are up and running Arquillian deploys the Shrinkwrapped WAR file containing the application + Test Suite onto the EAP7 server.
 
-## Test Suite is launched
+### Test Suite is launched
 The [UnifiedStockTestCase](https://github.com/scottysinclair/stock-application-project/blob/ae6551093eced18b9da2217f9bbf4a9d449433a2/stock-application-uat/src/test/java/com/acme/spring/hibernate/service/impl/UnifiedStockTestCase.java) is launched.
 
-A custom Junit rule (UnifiedTestWatcher) is used to managed the state of the PostgreSQL and DB2 databases before and after each test run. The UnifiedTestWatcher does the following:
+A custom Junit rule (UnifiedTestWatcher) is used to managed the state of the PostgreSQL and DB2 databases before and after each test run. The UnifiedTestWatcher manages the following:
 1. Initializes the PostgreSQL database according to the DBUnit dataset defined for the test case.
 2. Initializes the DB2 database according to the DBUnit dataset defined for the test case.
 3. Dumps the PostgreSQL and DB2 database contents to a DBUnit XML file when a test fails.
 
-
+### The PostgreSQL and DB2 databases are initialized as per the UnifiedTestWatcher Rule
+Each test case has it's own directory under `/datasets/` which contains DBUnit datasets.
+DBUnit will perform a **CLEAN_INSERT** for PostgreSQL by finding a file [/datasets/<testcase>/input_ds.xml](https://github.com/scottysinclair/stock-application-project/blob/master/stock-application-uat/src/test/resources/datasets/test_case_1/input_ds.xml)
 
 
