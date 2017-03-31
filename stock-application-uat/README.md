@@ -9,4 +9,14 @@ Execute automated tests against a real project infrastructure, in this case:
 *Arquillian Spring* supports using Spring inside the Arqulllian Test Suite.  
 *Arquillian Persistence* provide support for using DBUnit inside the Arquillian Test Suite.  
 
+## Steps in the automate test process
+Launch the tests by running `mvn clean install -Puat`
+
+Arquillian Cube fires up the docker containers defined in Arqullian.xml:
+1. web - contains the EAP7 image and a command line Java Docker client.
+2. db - contains the PostgreSQL image.
+3. olddb - contains the ibm DB2 image (based on https://hub.docker.com/r/ibmcom/db2express-c/)
+4. batch - contains the batch Java application which syncs from PostgreSQL to DB2.
+
+
 
