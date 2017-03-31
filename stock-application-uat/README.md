@@ -36,6 +36,9 @@ A custom Junit rule (UnifiedTestWatcher) is used to managed the state of the Pos
 
 ### The PostgreSQL and DB2 databases are initialized as per the UnifiedTestWatcher Rule
 Each test case has it's own directory under `/datasets/` which contains DBUnit datasets.
-DBUnit will perform a **CLEAN_INSERT** for PostgreSQL by finding a file [/datasets/test_case_1/input_ds.xml](./src/test/resources/datasets/test_case_1/input_ds.xml)
+DBUnit will perform a **CLEAN_INSERT** for PostgreSQL by finding a file [input_ds.xml](./src/test/resources/datasets/test_case_1/input_ds.xml)
+DBUnit will perform a **CLEAN_INSERT** for DB2 by finding a file [input_dsInt.xml](./src/test/resources/datasets/test_case_1/input_dsInt.xml)
+
+If DBUnit should just clean the tables and not perform any inserts then the XML file should just refer to the table but not specify any data. DBUnit will then only peform the clean.
 
 
