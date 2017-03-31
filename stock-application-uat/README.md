@@ -10,13 +10,23 @@ Execute automated tests against a real project infrastructure, in this case:
 *Arquillian Persistence* provide support for using DBUnit inside the Arquillian Test Suite.  
 
 ## Steps in the automate test process
+
+### Launch the test
 Launch the tests by running `mvn clean install -Puat`
 
+### Docker containers started 
 Arquillian Cube fires up the docker containers defined in Arqullian.xml:
 1. web - contains the EAP7 image and a command line Java Docker client.
 2. db - contains the PostgreSQL image.
 3. olddb - contains the ibm DB2 image (based on https://hub.docker.com/r/ibmcom/db2express-c/)
 4. batch - contains the batch Java application which syncs from PostgreSQL to DB2.
+
+The DOOCKER_HOST is currently assumed to be http://localhost:4243 but this restriction will be removed soon.
+
+Once the containers are up and running Arquillian deploys the Shrinkwrapped WAR file containing the application + Test Suite onto the EAP7 server.
+
+[UnifiedStockTestCase](https://github.com/scottysinclair/stock-application-project/blob/ae6551093eced18b9da2217f9bbf4a9d449433a2/stock-application-uat/src/test/java/com/acme/spring/hibernate/service/impl/UnifiedStockTestCase.java)
+
 
 
 
