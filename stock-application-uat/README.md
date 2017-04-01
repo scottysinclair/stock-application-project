@@ -29,12 +29,12 @@ Once the containers are up and running Arquillian deploys the Shrinkwrapped WAR 
 ### Test Suite is launched
 The [UnifiedStockTestCase](./src/test/java/com/acme/spring/hibernate/service/impl/UnifiedStockTestCase.java) is launched.
 
+### The PostgreSQL and DB2 databases are initialized as per the UnifiedTestWatcher Rule
 A custom Junit rule [UnifiedTestWatcher](./src/test/java/com/acme/spring/hibernate/UnifiedTestWatcher.java) is used to managed the state of the PostgreSQL and DB2 databases before and after each test run. The UnifiedTestWatcher manages the following:
 1. Initializes the PostgreSQL database according to the DBUnit dataset defined for the test case.
 2. Initializes the DB2 database according to the DBUnit dataset defined for the test case.
 3. Dumps the PostgreSQL and DB2 database contents to a DBUnit XML file when a test fails.
 
-### The PostgreSQL and DB2 databases are initialized as per the UnifiedTestWatcher Rule
 Each test case has it's own directory under `/datasets/` which contains DBUnit datasets.
 DBUnit will perform a **CLEAN_INSERT** for PostgreSQL by finding a file [input_ds.xml](./src/test/resources/datasets/test_case_1/input_ds.xml)
 DBUnit will perform a **CLEAN_INSERT** for DB2 by finding a file [input_dsInt.xml](./src/test/resources/datasets/test_case_1/input_dsInt.xml)
