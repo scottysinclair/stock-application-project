@@ -21,7 +21,7 @@ Arquillian Cube fires up the docker containers defined in Arqullian.xml:
 3. olddb - contains the [ibm DB2 image](https://hub.docker.com/r/scottysinclair/db2-express-sr/) (based on https://hub.docker.com/r/ibmcom/db2express-c/)
 4. batch - contains the batch Java application which syncs from PostgreSQL to DB2.
 
-The Arquillian Cube configuration in [aquillian.xml](./src/test/resources/arquillian.xml) actually dynamically extends the *db* and *olddb* Docker images to include the scripts to create the database schema. These scripts are executed automatically as part of container startup. This ensures that both databases are properly initialized and ready when the Test Suite begins execution. 
+The Arquillian Cube configuration in [aquillian.xml](./src/test/resources/arquillian.xml) dynamically extends the *db* and *olddb* Docker images to include the scripts to create the database schema. These scripts are executed automatically as part of container startup. This ensures that both databases are properly initialized and ready when the Test Suite begins execution. 
 
 The DOOCKER_HOST is currently assumed to be http://localhost:4243 but this restriction will be removed soon.
 
