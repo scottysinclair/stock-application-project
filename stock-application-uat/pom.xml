@@ -453,21 +453,25 @@
             <configuration>
               <source>
                def addr = System.getenv("DOCKER_HOST");
-			   if (addr == null) {
-			    addr = "tcp://localhost:4243"
-			   }
-			   if (addr.contains("localhost")) {
-			     def host = getBuildServerIP();
-				 addr = addr.replace("localhost", host);
-			   }
-			   else if (addr.contains("127.0.0.1")) {
-			     def host = getBuildServerIP();
-				 addr = addr.replace("127.0.0.1", host);
-			   }
-			   
+         if (addr == null) {
+          addr = "tcp://localhost:4243"
+         }
+         if (addr.contains("localhost")) {
+           def host = getBuildServerIP();
+         addr = addr.replace("localhost", host);
+         }
+         else if (addr.contains("127.0.0.1")) {
+           def host = getBuildServerIP();
+         addr = addr.replace("127.0.0.1", host);
+         }
+
+         def docker_host_ip = (addr =~ "tcp://(.*):")[0][1]
+
                 project.properties["docker_host_addr"] = addr;
+                project.properties["docker_host_ip"] = docker_host_ip;
                 System.out.println("-------------------------------------------------------");
                 System.out.println("Set docker host_address to " + addr);
+                System.out.println("Set docker host ip to " + docker_host_ip);
                 System.out.println("-------------------------------------------------------");
 
                 def getBuildServerIP() {
@@ -514,8 +518,15 @@
         <version>2.19.1</version>
         <configuration>
           <systemPropertyVariables>
-		    <!-- <arq.extension.docker.serverUri>tcp://192.168.0.31:4243</arq.extension.docker.serverUri>  -->
-            <arq.extension.docker.serverUri>${docker_host_addr}</arq.extension.docker.serverUri> 
+
+            <!--  override the arquillian.xml to use the correct DOCKER HOST serverUri -->
+            <arq.extension.docker.serverUri>${docker_host_addr}</arq.extension.docker.serverUri>
+
+            <!--  override the arquillian.xml configuration to use the  DOCKER HOST ip address -->
+            <arq.container.web.configuration.managementAddress>${docker_host_ip}</arq.container.web.configuration.managementAddress>
+            <docker_host_ip>${docker_host_ip}</docker_host_ip>
+
+            <!-- the location of the log4j properties -->
             <log4j.configuration>file:log4j.properties</log4j.configuration>
           </systemPropertyVariables>
         </configuration>

@@ -12,12 +12,12 @@
 
   <!--  control of the docker compose configuration -->
   <extension qualifier="docker">
-      <property name="serverVersion">1.13</property>
+    <property name="serverVersion">1.13</property>
 
-      <!--  the serverUri value is replaced at runtime with the value ${arq.extension.docker.serverUri} from maven -->
-      <property name="serverUri">http://localhost:4243</property>
+    <!--  the serverUri value is replaced at runtime with the value ${arq.extension.docker.serverUri} from maven -->
+    <property name="serverUri">replaced-at-runtime</property>
 
-      <property name="autoStartContainers">web,batch,db,olddb</property>
+    <property name="autoStartContainers">web,batch,db,olddb</property>
     <property name="dockerContainers">
       version: "2"
       services:
@@ -92,18 +92,18 @@
 
   <container qualifier="web" default="true">
     <configuration>
-        <property name="chameleonTarget">jboss eap:7.0.1:remote</property>
-      <property name="managementAddress">172.18.0.5</property>
+      <property name="chameleonTarget">jboss eap:7.0.1:remote</property>
+      <property name="managementAddress">${docker_host_ip}</property>
       <property name="managementPort">9990</property>
-            <property name="username">admin</property>
-            <property name="password">admin</property>
+      <property name="username">admin</property>
+      <property name="password">admin</property>
     </configuration>
 
-        <!--  the protocol used by arquillian to execute the tests on JBOSS -->
-       <protocol type="Servlet 3.0">
-          <property name="host">172.18.0.5</property>
-          <property name="port">8080</property>
-       </protocol>
+     <!--  the protocol used by arquillian to execute the tests on JBOSS -->
+    <protocol type="Servlet 3.0">
+       <property name="host">${docker_host_ip}</property>
+       <property name="port">8080</property>
+    </protocol>
   </container>
 
 </arquillian>
