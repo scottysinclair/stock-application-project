@@ -11,7 +11,7 @@ Execute automated tests against a real project infrastructure, in this case:
 
 ## Steps in the automated test process
 
-### Specify the DOCKER_HOST is required
+### For remote docker hosts, specify the DOCKER_HOST env variable
 If the docker host is on a remote machine, then specify the DOCKER_HOST environment variable with the format `tcp://<HOST>:<PORT>`
 
 ### Launch the test
