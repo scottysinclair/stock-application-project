@@ -11,6 +11,9 @@ Execute automated tests against a real project infrastructure, in this case:
 
 ## Steps in the automated test process
 
+### Specify the DOCKER_HOST is required
+If the docker host is on a remote machine, then specify the DOCKER_HOST environment variable with the format `tcp://<HOST>:<PORT>`
+
 ### Launch the test
 Launch the tests by running `mvn clean install -Puat`
 
@@ -96,6 +99,5 @@ If a test case fails then both the PostgreSQL and the DB2 databse contents are d
 
 ## Open Issues
 1. DBUnit is failing to dump the DB2 database contents on error. DBUnit mentions that there is a compatibility problem upfront in the EAP7 logs.
-2. The host OS DOCKER_HOST environment variable should be respected.
-3. The management host IP address in the arquillian XML file is currently hardcoded to 172.18.0.5, but this IP address is provided by docker and can change. We need to add a dynamic mechanism here.
-4. Cannot write the database dump files to the build machine. There is a problem with arquillian-cube volume specification which has been fixed on the 29th of March (https://github.com/arquillian/arquillian-cube/pull/651). This problem can be fixed if we upgrade to the current SNAPSHOT version of arquillian-cube. 
+2. Cannot write the database dump files to the build machine. There is a problem with arquillian-cube volume specification which has been fixed on the 29th of March (https://github.com/arquillian/arquillian-cube/pull/651). This problem can be fixed if we upgrade to the current SNAPSHOT version of arquillian-cube. 
+3. The arquillian.xml exposes the ports 8080 and 9990 on the DOCKER HOST machine, this prevents the same docker host from being used by multiple tests. It would be good to randomize the ports allocated.
