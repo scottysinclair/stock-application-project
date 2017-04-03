@@ -82,7 +82,7 @@ The batch job is hosted in the *batch* docker container. The [Java Docker client
 
 Note. The Java Docker client has a hard dependency to the Jersey JAX-RS implementation for communicating with the docker daemon. EAP7 on the other hand uses the [RestEasy JAX-RS](http://resteasy.jboss.org/) implementation and due to the class loading architecture of JBOSS it is not easy to override the implementation.
 
-For this reason a simple Java application [docker-client-commandline](https://github.com/scottysinclair/docker-client-commandline) which wraps the Java Docker Client with command-line execution is installed in the EAP7 Docker container. The test harness then executes an OS process to launch the commandline Docker Client to execute the batch job on the container.
+For this reason a simple Java application [docker-client-commandline](https://github.com/scottysinclair/docker-client-commandline) is installed on the EAP7 Docker container which allows the Java Docker Client to be used over the commandline.   The test harness then executes an OS process to launch the commandline Docker client to execute the batch job on the container.
 
 For this to work the EAP7 docker container must have the following enviornment variable set `DOCKER_SERVER_URI` and it must point to the Docker daeomon which was used to launch the test containers.
 
