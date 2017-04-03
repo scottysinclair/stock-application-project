@@ -264,7 +264,7 @@
   <dependencies>
     <dependency>
       <groupId>org.scott</groupId>
-      <artifactId>stock-application</artifactId>
+      <artifactId>stock-application-services</artifactId>
       <version>1.0.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
@@ -452,10 +452,22 @@
             </goals>
             <configuration>
               <source>
-               def addr = getBuildServerIP();
-                project.properties["host_addr"] = addr;
+               def addr = System.getenv("DOCKER_HOST");
+			   if (addr == null) {
+			    addr = "tcp://localhost:4243"
+			   }
+			   if (addr.contains("localhost")) {
+			     def host = getBuildServerIP();
+				 addr = addr.replace("localhost", host);
+			   }
+			   else if (addr.contains("127.0.0.1")) {
+			     def host = getBuildServerIP();
+				 addr = addr.replace("127.0.0.1", host);
+			   }
+			   
+                project.properties["docker_host_addr"] = addr;
                 System.out.println("-------------------------------------------------------");
-                System.out.println("Set host_address to " + addr);
+                System.out.println("Set docker host_address to " + addr);
                 System.out.println("-------------------------------------------------------");
 
                 def getBuildServerIP() {
@@ -502,7 +514,8 @@
         <version>2.19.1</version>
         <configuration>
           <systemPropertyVariables>
-            <arq.extension.docker.serverUri>tcp://${host_addr}:4243</arq.extension.docker.serverUri>
+		    <!-- <arq.extension.docker.serverUri>tcp://192.168.0.31:4243</arq.extension.docker.serverUri>  -->
+            <arq.extension.docker.serverUri>${docker_host_addr}</arq.extension.docker.serverUri> 
             <log4j.configuration>file:log4j.properties</log4j.configuration>
           </systemPropertyVariables>
         </configuration>

@@ -51,7 +51,7 @@ public final class Deployments {
     public static WebArchive createDeployment() {
         try {
             File stockServicesJar = Maven.resolver().loadPomFromFile("pom.xml")
-                    .resolve("org.scott:stock-application")
+                    .resolve("org.scott:stock-application-services")
                     .withoutTransitivity().asSingleFile();
 
             WebArchive archive = ShrinkWrap.create(WebArchive.class, "stock-application.war")
