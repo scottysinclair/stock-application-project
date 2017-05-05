@@ -61,6 +61,7 @@ public final class Deployments {
               .addClass(PostgresqlHelper.class)
               .addClass(Db2Helper.class)
               .addClass(ServiceRecorder.class)
+              .addClass(MethodCall.class)
               .addAsResource("applicationContext.xml")
               .addAsResource("datasets")
               .addAsLibrary(stockServicesJar)
@@ -97,6 +98,7 @@ public final class Deployments {
         files.addAll(resolveDependencies("org.postgresql:postgresql"));
         files.addAll(resolveDependencies("com.ibm.db2.jcc:db2jcc4"));
         files.addAll(resolveDependencies("org.dbunit:dbunit"));
+        files.addAll(resolveDependencies("com.thoughtworks.xstream:xstream"));
         return files.toArray(new File[files.size()]);
     }
 
