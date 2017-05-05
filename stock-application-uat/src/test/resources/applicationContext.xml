@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 
   <!--  the root application context used by the test war -->
 
@@ -21,5 +24,15 @@
 
     <bean name="unifiedTestWatcher" class="com.acme.spring.hibernate.UnifiedTestWatcher"/>
 
+      <!-- define the service recorder advice -->
+  <bean id="serviceRecorder" class="com.acme.spring.hibernate.ServiceRecorder">
+    <constructor-arg name="order"><value>1</value></constructor-arg>
+  </bean>
+
+  <!--  apply the advice to the service method of the application -->
+  <aop:config>
+    <aop:pointcut id="allServiceMethods" expression="execution(* com.acme.spring.hibernate.service.impl.DefaultStockService.*(..))"/>
+    <aop:advisor pointcut-ref="allServiceMethods"  advice-ref="serviceRecorder" order="1"/>
+  </aop:config>
 
 </beans>

@@ -60,6 +60,7 @@ public final class Deployments {
               .addClass(DatabaseHelper.class)
               .addClass(PostgresqlHelper.class)
               .addClass(Db2Helper.class)
+              .addClass(ServiceRecorder.class)
               .addAsResource("applicationContext.xml")
               .addAsResource("datasets")
               .addAsLibrary(stockServicesJar)
@@ -87,6 +88,8 @@ public final class Deployments {
         files.addAll(resolveDependencies("org.springframework:spring-context"));
         files.addAll(resolveDependencies("org.springframework:spring-orm"));
         files.addAll(resolveDependencies("org.springframework:spring-tx"));
+        files.addAll(resolveDependencies("org.springframework:spring-aop"));
+        files.addAll(resolveDependencies("org.aspectj:aspectjweaver"));
         files.addAll(resolveDependencies("org.hibernate:hibernate-core"));
         //files.addAll(resolveDependencies("org.hibernate:hibernate-annotations:3.5.6-Final"));
         files.addAll(resolveDependencies("org.hibernate.common:hibernate-commons-annotations"));
