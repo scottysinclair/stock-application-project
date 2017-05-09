@@ -47,6 +47,8 @@ public class UnifiedTestWatcher extends TestWatcher {
   public void init() {
     pgHelper = new PostgresqlHelper(ds);
     db2Helper = new Db2Helper(dsInt);
+  }
+
   @Autowired
   public void setServicePlayer(ServicePlayer servicePlayer) {
     this.servicePlayer = servicePlayer;
@@ -69,23 +71,13 @@ public class UnifiedTestWatcher extends TestWatcher {
 
     /*
      * execute the integration job.
-
+     */
     IntegrationHelper.executeIntegration();
 
     /*
      * assert the state of the DB2 database after integration.
-
+     */
     assertFirstIntegration();
-*/
-    /*
-     * execute the integration job.
-     */
-//    IntegrationHelper.executeIntegration();
-
-    /*
-     * assert the state of the DB2 database after integration.
-     */
-//    unifiedTestWatcher.assertFirstIntegration();
 
   }
 
@@ -109,7 +101,7 @@ public class UnifiedTestWatcher extends TestWatcher {
   }
 
   public void assertFirstIntegration() throws Exception {
-    //    db2Helper.assertTestData("asserting integration tables", "/" + testName + "/expected_result_2.xml", null, excludedColumns);
+    db2Helper.assertTestData("asserting integration tables", "/" + testName + "/expected_result_2.xml", null, excludedColumns);
   }
 
   /**
@@ -124,7 +116,7 @@ public class UnifiedTestWatcher extends TestWatcher {
       LOG.error("Could not dump Postgres database", x);
     }
     try {
-   //   db2Helper.dumpDatabase( testName );
+      db2Helper.dumpDatabase( testName );
     }
     catch(Exception x) {
       LOG.error("Could not dump DB2 database", x);
