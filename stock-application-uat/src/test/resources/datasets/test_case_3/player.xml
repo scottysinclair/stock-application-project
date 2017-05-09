@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <com.acme.spring.hibernate.MethodCalls>
 <calls>
+
+<!--
+   First method call in test case 
+   Save a ACM Stock
+-->
 <com.acme.spring.hibernate.MethodCall>
   <className>com.acme.spring.hibernate.service.StockService</className>
   <methodName>save</methodName>
@@ -14,7 +19,14 @@
       <date>2017-05-09 08:59:41.304 UTC</date>
     </com.acme.spring.hibernate.domain.Stock>
   </arguments>
-</com.acme.spring.hibernate.MethodCall><com.acme.spring.hibernate.MethodCall>
+</com.acme.spring.hibernate.MethodCall>
+
+
+<!--
+   Second method call in test case.
+   Save a Ref Hat stock
+-->
+<com.acme.spring.hibernate.MethodCall>
   <className>com.acme.spring.hibernate.service.StockService</className>
   <methodName>save</methodName>
   <methodString>public abstract long com.acme.spring.hibernate.service.StockService.save(com.acme.spring.hibernate.domain.Stock)</methodString>
@@ -28,5 +40,6 @@
     </com.acme.spring.hibernate.domain.Stock>
   </arguments>
 </com.acme.spring.hibernate.MethodCall>
+
 </calls>
 </com.acme.spring.hibernate.MethodCalls>

@@ -45,8 +45,6 @@ public class ServiceRecorder implements MethodBeforeAdvice, Ordered {
     mc.setArguments(args);
 
     appendToFile( convertToXml(mc) );
-
-    System.out.println("\n\nBEFORE");
   }
 
   private String convertToXml(MethodCall mc) {
