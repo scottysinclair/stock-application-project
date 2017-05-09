@@ -29,7 +29,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.acme.spring.hibernate.Deployments;
-import com.acme.spring.hibernate.IntegrationHelper;
 import com.acme.spring.hibernate.UnifiedTestWatcher;
 import com.acme.spring.hibernate.domain.Stock;
 import com.acme.spring.hibernate.service.StockService;
@@ -81,17 +80,17 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the new application database.
        */
-      unifiedTestWatcher.assertNewTestData(new String[]{"date"});
+      unifiedTestWatcher.assertNewTestData();
 
       /*
        * execute the integration job.
        */
-      IntegrationHelper.executeIntegration();
+  //    IntegrationHelper.executeIntegration();
 
       /*
        * assert the state of the DB2 database after integration.
        */
-      unifiedTestWatcher.assertFirstIntegration(new String[]{"date"});
+//      unifiedTestWatcher.assertFirstIntegration();
     }
 
 
@@ -110,17 +109,22 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the new application database.
        */
-      unifiedTestWatcher.assertNewTestData(new String[]{"date"});
+      unifiedTestWatcher.assertNewTestData();
 
       /*
        * execute the integration job.
        */
-      IntegrationHelper.executeIntegration();
+//      IntegrationHelper.executeIntegration();
 
       /*
        * assert the state of the DB2 database after integration.
        */
-      unifiedTestWatcher.assertFirstIntegration(new String[]{"date"});
+//      unifiedTestWatcher.assertFirstIntegration();
+    }
+
+    @Test
+    public void test_case_3() throws Exception {
+      unifiedTestWatcher.executeTestCase();
     }
 
     /**

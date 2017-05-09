@@ -61,6 +61,8 @@ public final class Deployments {
               .addClass(PostgresqlHelper.class)
               .addClass(Db2Helper.class)
               .addClass(ServiceRecorder.class)
+              .addClass(ServicePlayer.class)
+              .addClass(MethodCalls.class)
               .addClass(MethodCall.class)
               .addAsResource("applicationContext.xml")
               .addAsResource("datasets")

@@ -14,25 +14,34 @@
     <import resource="classpath:stock-application-service.xml"/>
 
    <!--  adds the integration DB2 datasource -->
-      <!-- Settings for external data source, DriverManagerDataSource is used only for test purpose in real situation use pooling datasource like DBCP  -->
+      <!-- Settings for external data source, DriverManagerDataSource is used only for test purpose in real situation use pooling datasource like DBCP
     <bean id="dataSourceInt" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.ibm.db2.jcc.DB2Driver"/>
         <property name="url" value="jdbc:db2://olddb:50000/test"/>
         <property name="username" value="db2inst1"/>
         <property name="password" value="password"/>
+    </bean>-->
+
+    <bean name="unifiedTestWatcher" class="com.acme.spring.hibernate.UnifiedTestWatcher">
+      <property name="excludedColumns">
+        <array>
+          <value>date</value>
+        </array>
+      </property>
     </bean>
 
-    <bean name="unifiedTestWatcher" class="com.acme.spring.hibernate.UnifiedTestWatcher"/>
-
       <!-- define the service recorder advice -->
-  <bean id="serviceRecorder" class="com.acme.spring.hibernate.ServiceRecorder">
-    <constructor-arg name="order"><value>1</value></constructor-arg>
-  </bean>
+    <bean id="serviceRecorder" class="com.acme.spring.hibernate.ServiceRecorder">
+      <constructor-arg name="order"><value>1</value></constructor-arg>
+      <constructor-arg name="rootFolder"><value>/tmp</value></constructor-arg>
+    </bean>
 
-  <!--  apply the advice to the service method of the application -->
-  <aop:config>
-    <aop:pointcut id="allServiceMethods" expression="execution(* com.acme.spring.hibernate.service.impl.DefaultStockService.*(..))"/>
-    <aop:advisor pointcut-ref="allServiceMethods"  advice-ref="serviceRecorder" order="1"/>
-  </aop:config>
+    <bean id="servicePlayer" class="com.acme.spring.hibernate.ServicePlayer"/>
+
+    <!--  apply the advice to the service method of the application -->
+    <aop:config>
+      <aop:pointcut id="allServiceMethods" expression="execution(* com.acme.spring.hibernate.service.impl.DefaultStockService.*(..))"/>
+      <aop:advisor pointcut-ref="allServiceMethods"  advice-ref="serviceRecorder" order="1"/>
+    </aop:config>
 
 </beans>

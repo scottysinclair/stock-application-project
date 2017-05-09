@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.acme.spring.hibernate.MethodCalls>
+<calls>
+<com.acme.spring.hibernate.MethodCall>
+  <className>com.acme.spring.hibernate.service.StockService</className>
+  <methodName>save</methodName>
+  <methodString>public abstract long com.acme.spring.hibernate.service.StockService.save(com.acme.spring.hibernate.domain.Stock)</methodString>
+  <arguments>
+    <com.acme.spring.hibernate.domain.Stock>
+      <id>0</id>
+      <name>Acme</name>
+      <symbol>ACM</symbol>
+      <value>123.2099999999999937472239253111183643341064453125</value>
+      <date>2017-05-09 08:59:41.304 UTC</date>
+    </com.acme.spring.hibernate.domain.Stock>
+  </arguments>
+</com.acme.spring.hibernate.MethodCall><com.acme.spring.hibernate.MethodCall>
+  <className>com.acme.spring.hibernate.service.StockService</className>
+  <methodName>save</methodName>
+  <methodString>public abstract long com.acme.spring.hibernate.service.StockService.save(com.acme.spring.hibernate.domain.Stock)</methodString>
+  <arguments>
+    <com.acme.spring.hibernate.domain.Stock>
+      <id>0</id>
+      <name>Red Hat</name>
+      <symbol>RHC</symbol>
+      <value>59.6099999999999994315658113919198513031005859375</value>
+      <date>2017-05-09 08:59:41.438 UTC</date>
+    </com.acme.spring.hibernate.domain.Stock>
+  </arguments>
+</com.acme.spring.hibernate.MethodCall>
+</calls>
+</com.acme.spring.hibernate.MethodCalls>

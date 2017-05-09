@@ -5,9 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.core.Ordered;
 
@@ -17,19 +14,11 @@ public class ServiceRecorder implements MethodBeforeAdvice, Ordered {
 
   @SuppressWarnings("unused")
   private int order;
+  private String rootFolder;
 
-  public ServiceRecorder(int order) {
+  public ServiceRecorder(int order, String rootFolder) {
     this.order = order;
-  }
-
-  @PostConstruct
-  public void init() {
-
-  }
-
-  @PreDestroy
-  public void destroy() {
-
+    this.rootFolder = rootFolder;
   }
 
   @Override
@@ -50,8 +39,9 @@ public class ServiceRecorder implements MethodBeforeAdvice, Ordered {
 
   private void record(Method method, Object[] args, Object target) throws IOException {
     MethodCall mc = new MethodCall();
-    mc.setClassName(method.getDeclaringClass().getName());
+    mc.setClassName( method.getDeclaringClass().getName() );
     mc.setMethodName(method.getName());
+    mc.setMethodString(method.toGenericString());
     mc.setArguments(args);
 
     appendToFile( convertToXml(mc) );
@@ -65,7 +55,7 @@ public class ServiceRecorder implements MethodBeforeAdvice, Ordered {
   }
 
   private void appendToFile(String data) throws IOException {
-    File file = new File("/tmp/test_case_calls.xml");
+    File file = new File(rootFolder + "/test_case_calls.xml");
     FileWriter out = new FileWriter(file, true);
     out.write(data);
     out.flush();

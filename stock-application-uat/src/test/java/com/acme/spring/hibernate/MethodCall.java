@@ -6,6 +6,8 @@ public class MethodCall {
 
   private String methodName;
 
+  private String methodString;
+
   private Object arguments[];
 
   public String getClassName() {
@@ -30,6 +32,14 @@ public class MethodCall {
 
   public void setArguments(Object[] arguments) {
     this.arguments = arguments;
+  }
+
+  public void setMethodString(String methodString) {
+    this.methodString = methodString;
+  }
+
+  public String getMethodString() {
+    return methodString;
   }
 
 }

@@ -1,10 +1,18 @@
 package com.acme.spring.hibernate;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -14,6 +22,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
  *
  */
 public class UnifiedTestWatcher extends TestWatcher {
+
+  private static final Logger LOG = LoggerFactory.getLogger(UnifiedTestWatcher.class);
 
   @Autowired
   @Qualifier("dataSource")
@@ -29,10 +39,54 @@ public class UnifiedTestWatcher extends TestWatcher {
 
   private String testName;
 
+  private ServicePlayer servicePlayer;
+
+  private String excludedColumns[] = new String[0];
+
   @PostConstruct
   public void init() {
     pgHelper = new PostgresqlHelper(ds);
     db2Helper = new Db2Helper(dsInt);
+  @Autowired
+  public void setServicePlayer(ServicePlayer servicePlayer) {
+    this.servicePlayer = servicePlayer;
+  }
+
+  public void setExcludedColumns(String excludedColumns[]) {
+    this.excludedColumns = excludedColumns;
+  }
+
+  public void executeTestCase() throws Exception {
+
+    String playerXml = loadPlayerXml( testName );
+
+    servicePlayer.playTestCase(playerXml);
+
+    /*
+     * assert the state of the new application database.
+     */
+    assertNewTestData();
+
+    /*
+     * execute the integration job.
+
+    IntegrationHelper.executeIntegration();
+
+    /*
+     * assert the state of the DB2 database after integration.
+
+    assertFirstIntegration();
+*/
+    /*
+     * execute the integration job.
+     */
+//    IntegrationHelper.executeIntegration();
+
+    /*
+     * assert the state of the DB2 database after integration.
+     */
+//    unifiedTestWatcher.assertFirstIntegration();
+
   }
 
   /**
@@ -49,13 +103,13 @@ public class UnifiedTestWatcher extends TestWatcher {
     }
   }
 
-  public void assertNewTestData(String[] excludedColumns) throws Exception {
+  public void assertNewTestData() throws Exception {
     pgHelper.assertTestData("asserting new application database", "/" + testName + "/expected_result_1.xml", null,
         excludedColumns);
   }
 
-  public void assertFirstIntegration(String[] excludedColumns) throws Exception {
-    db2Helper.assertTestData("asserting integration tables", "/" + testName + "/expected_result_2.xml", null, excludedColumns);
+  public void assertFirstIntegration() throws Exception {
+    //    db2Helper.assertTestData("asserting integration tables", "/" + testName + "/expected_result_2.xml", null, excludedColumns);
   }
 
   /**
@@ -63,8 +117,45 @@ public class UnifiedTestWatcher extends TestWatcher {
    */
   @Override
   protected void failed(Throwable e, Description description) {
-    pgHelper.dumpDatabase( testName );
-    db2Helper.dumpDatabase( testName );
+    try {
+      pgHelper.dumpDatabase( testName );
+    }
+    catch(Exception x) {
+      LOG.error("Could not dump Postgres database", x);
+    }
+    try {
+   //   db2Helper.dumpDatabase( testName );
+    }
+    catch(Exception x) {
+      LOG.error("Could not dump DB2 database", x);
+    }
   }
+
+  private LineNumberReader openReaderToPlayerXml(String testName) throws FileNotFoundException {
+    String filePath = "/datasets/" + testName + "/player.xml";
+    InputStream in = UnifiedTestWatcher.class.getResourceAsStream( filePath );
+    if (in == null) {
+      throw new FileNotFoundException("Could not find the XML service player file for test case " + testName + " at '" + filePath + "'");
+    }
+    return new LineNumberReader(new InputStreamReader( in ));
+  }
+
+  private String loadPlayerXml(String testName)  {
+    try {
+      StringBuilder sb = new StringBuilder();
+      try (LineNumberReader lin = openReaderToPlayerXml( testName );) {
+        String line;
+        while((line = lin.readLine()) != null) {
+          sb.append(line);
+          sb.append('\n');
+        }
+        return sb.toString();
+      }
+    }
+    catch(IOException x) {
+      throw new IllegalStateException("Could not load playerXml file for test case '" + testName + "'", x);
+    }
+  }
+
 
 }
